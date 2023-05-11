@@ -1,6 +1,6 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, DefaultTheme } from 'styled-components'
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle<{ theme: DefaultTheme }>`
 
 *{
     box-sizing: border-box;
@@ -14,6 +14,8 @@ button{
     justify-content: center;
     align-items: center;
     outline: none;
+    border: none;
+    cursor: pointer;
 }
 
 a, li, ul{

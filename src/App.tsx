@@ -4,9 +4,9 @@ import { GlobalStyle } from './styles/globalStyles'
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <p>Hello from My Companies</p>
+    <ThemeProvider theme={theme as never}>
+      <GlobalStyle theme={theme as never} />
+ 
     </ThemeProvider>
   )
 }
