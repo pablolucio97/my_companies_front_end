@@ -8,13 +8,13 @@ import {
     LogoContainer
 } from './styles'
 
-import { Button } from '../../components/Button'
-import background from '../../assets/background.svg'
-import logo from '../../assets/logo.svg'
-import { Title } from '../../components/Title'
-import { Text } from '../../components/Text'
+import { Button } from '@components/Button'
+import background from '@assets/background.svg'
+import logo from '@assets/logo.svg'
+import { Title } from '@components/Title'
+import { Text } from '@components/Text'
 
-export default function Home() {
+export default function SignIn() {
     return (
         <Container>
             <IntroductionContainer>
