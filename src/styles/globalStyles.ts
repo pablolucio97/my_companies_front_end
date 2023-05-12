@@ -22,4 +22,28 @@ a, li, ul{
     text-decoration: none;
 }
 
+.active-modal {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-width: 684px;
+        background: ${({ theme }) => theme.colors.backgroundLight};
+        border-radius: 5px;
+        margin: 25% auto;
+        padding: 0;
+  }
+
+  .react-modal-overlay{
+        background: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  }
+
+
 `
