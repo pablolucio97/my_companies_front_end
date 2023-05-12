@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 
 interface ModalBoxProps {
     showAnimation?: boolean;
+    variant?: 'primary' | 'delete'
 }
 
 const modalAnimation = keyframes`
@@ -26,7 +27,7 @@ export const Container = styled(Modal) <ModalBoxProps>`
   animation: ${({ showAnimation }) => showAnimation && modalAnimation} 1s ease;
 `;
 
-export const TitleContainer = styled.div`
+export const TitleContainer = styled.div<ModalBoxProps>`
 width: 100%;
 height: 60px;
 display: flex;
@@ -34,7 +35,9 @@ justify-content: space-between;
 align-items: center;
 padding: 0 16px;
 border-radius: 5px 5px 0 0;
-background-color: ${({ theme }) => theme.colors.primary};
+background-color: ${({ theme, variant }) => variant === 'primary' ?
+        theme.colors.primary :
+        theme.colors.error};
 margin: 0;
 
 & h2{

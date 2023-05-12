@@ -3,8 +3,7 @@ import { Container, TitleContainer, CloseIconStyle, Divider, ActionContainer } f
 import { SubTitle } from '@components/SubTitle';
 import { Button } from '@components/Button';
 import { MdClose } from 'react-icons/md'
-
-
+import { useTheme } from 'styled-components'
 
 interface ModalBoxProps {
     isOpen: boolean;
@@ -16,7 +15,8 @@ interface ModalBoxProps {
     children?: ReactNode;
     modalClassName?: string;
     overlayClassName?: string;
-    showAnimation?: boolean
+    showAnimation?: boolean;
+    variant?: 'primary' | 'delete'
 }
 
 export function ModalBox({
@@ -29,8 +29,11 @@ export function ModalBox({
     title,
     modalClassName,
     overlayClassName,
-    showAnimation = true
+    showAnimation = true,
+    variant = 'primary'
 }: ModalBoxProps) {
+
+    const theme = useTheme()
 
     return (
         <Container
@@ -41,7 +44,13 @@ export function ModalBox({
             showAnimation={showAnimation}
             ariaHideApp={false}
         >
-            <TitleContainer>
+            <TitleContainer
+                style={{
+                    background: variant === 'primary' ?
+                        theme?.colors.primary :
+                        theme?.colors.error
+                }}
+            >
                 <SubTitle
                     content={title}
                 />
@@ -56,6 +65,11 @@ export function ModalBox({
                 <Button
                     onClick={onConfirm}
                     title={confirmButtonTitle}
+                    style={{
+                        background: variant === 'primary' ?
+                            theme?.colors.primary :
+                            theme?.colors.error
+                    }}
                 />
             </ActionContainer>
         </Container>

@@ -33,6 +33,18 @@ a, li, ul{
         padding: 0;
   }
 
+  .active-modal-delete {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 604px;
+        height: 80px;
+        background: ${({ theme }) => theme.colors.backgroundLight};
+        border-radius: 5px;
+        margin: 25% auto;
+        padding: 0;
+  }
+
   .react-modal-overlay{
         background: rgba(0, 0, 0, 0.5);
         position: fixed;
