@@ -6,24 +6,46 @@ import {
     BuildingsIconStyles,
     ArrowDownIconStyles,
     UserTextStyle,
+    BiggerArrowDownIconStyles,
+    HeaderTitleDynamicContainer,
 } from './styles';
 import { MdDomain, MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { SubTitle } from '@components/SubTitle'
 import { Text } from '@components/Text'
 import avatar from '@assets/avatar.svg'
 
+interface HeaderProps {
+    renderStaticTitle: boolean
+}
 
-export function Header() {
+export function Header({ renderStaticTitle }: HeaderProps) {
     return (
         <Container>
-            <HeaderTitleContainer>
-                <MdDomain
-                    style={BuildingsIconStyles}
-                />
-                <SubTitle
-                    content='Minhas Empresas'
-                />
-            </HeaderTitleContainer>
+            {
+                renderStaticTitle ?
+                    <HeaderTitleContainer>
+                        <MdDomain
+                            style={BuildingsIconStyles}
+                        />
+                        <SubTitle
+                            content='Minhas Empresas'
+                        />
+                    </HeaderTitleContainer>
+                    :
+                    <HeaderTitleContainer>
+                        <HeaderTitleDynamicContainer>
+                            <MdDomain
+                                style={BuildingsIconStyles}
+                            />
+                            <SubTitle
+                                content='Empresas do Janiu...'
+                            />
+                            <MdOutlineKeyboardArrowDown
+                                style={BiggerArrowDownIconStyles}
+                            />
+                        </HeaderTitleDynamicContainer>
+                    </HeaderTitleContainer>
+            }
             <HeaderUserContainer>
                 <AvatarContainer>
                     <img

@@ -46,8 +46,6 @@ background-color: ${({ theme }) => theme.colors.secondary};
     font-size: ${({ theme }) => theme.sizes[4]};
     line-height:  ${({ theme }) => theme.sizes[5]};
 }
-
-
 `
 
 export const FormContainer = styled.div`
@@ -85,4 +83,28 @@ width: 400px;
 display: flex;
 flex-direction: column;
 margin-bottom: ${({ theme }) => theme.sizes[8]};
+`
+
+export const Main = styled.main`
+width: 100%;
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: ${({ theme }) => theme.sizes[4]};
+background-color:  ${({ theme }) => theme.colors.background};
+`
+
+export const ContentContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin: 0 auto 10rem;
+& h1{
+    max-width: 560px;
+    text-align: center;
+    margin-bottom: ${({ theme }) => theme.sizes[8]};
+}
 `

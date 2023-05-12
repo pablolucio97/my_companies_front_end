@@ -14,6 +14,16 @@ background-color:  ${({theme}) => theme.colors.backgroundLight};
 padding: ${({theme}) => theme.sizes[4]};
 `
 
+export const HeaderTitleDynamicContainer = styled.div`
+min-width: 398px;
+display: flex;
+flex-direction: row;
+align-items: center;
+background-color:  ${({theme}) => theme.colors.backgroundGrey};
+padding: ${({theme}) => theme.sizes[4]};
+margin-left: -16px;
+`
+
 export const HeaderUserContainer = styled.div`
 width: 251px;
 display: flex;
@@ -40,6 +50,12 @@ export const BuildingsIconStyles = {
 export const ArrowDownIconStyles = {
     width: '24px',
     height: '24px',
+}
+
+export const BiggerArrowDownIconStyles = {
+    width: '48px',
+    height: '48px',
+    marginLeft: '24px'
 }
 
 export const UserTextStyle = {

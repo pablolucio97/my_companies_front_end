@@ -4,17 +4,17 @@ import { ContentContainer, Main } from '@styles/sharedStyles';
 import { Header } from '@components/Header'
 import { Button } from '@components/Button';
 
-export default function Companies() {
+export default function Places() {
     return (
         <Container>
-            <Header renderStaticTitle />
+            <Header renderStaticTitle={false} />
             <Main>
                 <ContentContainer>
                     <Title
-                        content='Nenhuma empresa cadastrada!'
+                        content='Nenhuma local cadastrado!'
                     />
                     <Button
-                        title='Adicionar empresa'
+                        title='Adicionar local'
                     />
                 </ContentContainer>
             </Main>
