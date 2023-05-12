@@ -3,18 +3,22 @@ import {
     Container,
     Form,
     InputContainer,
+} from './styles';
+import { 
+    ContentContainer, 
+    Main,
     NameInputStyle,
     TextDeleteContainer,
     Text,
     Strong
-} from './styles';
-import { ContentContainer, Main } from '@styles/sharedStyles';
+} from '@styles/sharedStyles';
 import { Header } from '@components/Header'
 import { Button } from '@components/Button';
 import { ModalBox } from '@components/Modal'
 import { useState } from 'react';
 import { TextInput } from '@components/TextInput'
 import { TextInputMask } from '@components/TextInputMask';
+import { CNPJMask } from '@utils/masks';
 
 export default function Companies() {
 
@@ -36,7 +40,7 @@ export default function Companies() {
                     />
                     <Button
                         title='Adicionar empresa'
-                        onClick={() => setModal('delete-company')}
+                        onClick={() => setModal('register-company')}
                     />
                 </ContentContainer>
             </Main>
@@ -68,7 +72,7 @@ export default function Companies() {
                             label='CNPJ'
                             name='cnpj'
                             id='cnpj-input'
-                            mask='99.999.999/9999-99'
+                            mask={CNPJMask}
                         />
                     </InputContainer>
                 </Form>
@@ -101,7 +105,7 @@ export default function Companies() {
                             label='CNPJ'
                             name='cnpj'
                             id='cnpj-input'
-                            mask='99.999.999/9999-99'
+                            mask={CNPJMask}
                         />
                     </InputContainer>
                 </Form>

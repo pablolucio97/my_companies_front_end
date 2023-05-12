@@ -12,6 +12,7 @@ export default defineConfig({
       '@styles': '/src/styles',
       '@theme': '/src/theme',
       '@routes': '/src/routes',
+      '@utils': '/src/utils',
     }
   }
 })

@@ -108,3 +108,42 @@ margin: 0 auto 10rem;
     margin-bottom: ${({ theme }) => theme.sizes[8]};
 }
 `
+
+export const TextDeleteContainer = styled.div`
+width: 100%;
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0 ${({ theme }) => theme.sizes[4]};
+margin-bottom: ${({ theme }) => theme.sizes[10]};
+`
+
+export const Text = styled.p`
+  font-size: ${({ theme }) => theme.sizes[4]};
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text};
+  @media (max-width: 992px) {
+    font-size: ${({ theme }) => theme.sizes[3]};
+  }
+  @media (max-width: 720px) {
+    font-size: ${({ theme }) => theme.sizes[2]};
+  }
+`;
+
+export const Strong = styled.strong`
+  font-size: ${({ theme }) => theme.sizes[4]};
+  font-weight: 500;
+  margin: 0 4px;
+  color: ${({ theme }) => theme.colors.text};
+  @media (max-width: 992px) {
+    font-size: ${({ theme }) => theme.sizes[3]};
+  }
+  @media (max-width: 720px) {
+    font-size: ${({ theme }) => theme.sizes[2]};
+  }
+`;
+
+
+export const NameInputStyle = {
+    width: '100%',
+}
