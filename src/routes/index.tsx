@@ -1,6 +1,7 @@
+import Companies from '@pages/Companies'
+import ErrorPage from '@pages/ErrorPage'
 import SignIn from '@pages/SignIn'
 import SignUp from '@pages/SignUp'
-import ErrorPage from '@pages/ErrorPage'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const Routes = createBrowserRouter([
@@ -14,5 +15,9 @@ export const Routes = createBrowserRouter([
     {
         path: '/cadastro',
         element: <SignUp />
+    },
+    {
+        path: '/empresas',
+        element: <Companies />
     },
 ])

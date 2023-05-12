@@ -9,7 +9,7 @@ const theme = {
         label: '#373737',
         backgroundLight: '#FFFFFF',
         backgroundGrey: '#EAEAEA',
-        background: '#575656',
+        background: '#F5F5F5',
         success: '#079904',
         error: '#C90808',
     },

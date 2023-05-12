@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 export const SubTitle = styled.h2`
   font-size: ${({ theme }) => theme.sizes[7]};
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.title};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.text};
   @media (max-width: 992px) {
     font-size: ${({ theme }) => theme.sizes[5]};
   }
