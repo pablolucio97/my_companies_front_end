@@ -58,12 +58,16 @@ justify-content: center;
 align-items: center;
 background-color: ${({ theme }) => theme.colors.backgroundLight};
 
-& input, button{
- margin-bottom: ${({ theme }) => theme.sizes[4]};
+& button{
+    margin-top: ${({ theme }) => theme.sizes[4]};
+}
+
+& input{
+    margin-bottom: ${({ theme }) => theme.sizes[0]};
 }
 
 & img{
-    margin-bottom: ${({ theme }) => theme.sizes[8]};
+    margin-bottom: ${({ theme }) => theme.sizes[4]};
     object-fit: contain;
 }
 
@@ -80,4 +84,5 @@ export const FormContentContainer = styled.div`
 width: 400px;
 display: flex;
 flex-direction: column;
+margin-bottom: ${({ theme }) => theme.sizes[8]};
 `

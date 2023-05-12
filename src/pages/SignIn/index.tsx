@@ -6,13 +6,14 @@ import {
     FormContainer,
     FormContentContainer,
     LogoContainer
-} from './styles'
+} from '@styles/sharedStyles'
 
 import { Button } from '@components/Button'
 import background from '@assets/background.svg'
 import logo from '@assets/logo.svg'
 import { Title } from '@components/Title'
 import { Text } from '@components/Text'
+import { TextInput } from '@components/TextInput'
 
 export default function SignIn() {
     return (
@@ -45,6 +46,16 @@ export default function SignIn() {
                     />
                 </LogoContainer>
                 <FormContentContainer>
+                    <TextInput
+                        label='Email'
+                        name='email'
+                        id='email-input'
+                    />
+                    <TextInput
+                        label='Senha'
+                        name='password'
+                        id='password-input'
+                    />
                     <Button
                         title='LOGAR'
                     />
