@@ -2,17 +2,17 @@ import { ButtonHTMLAttributes } from 'react';
 import ReactLoading from 'react-loading';
 import { Container } from './styles';
 
-interface PrimaryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     title: string;
     loading?: boolean;
     variant?: 'primary' | 'secondary'
 }
 
-export function PrimaryButton({
+export function Button({
     title,
     loading,
     ...rest
-}: PrimaryButtonProps) {
+}: ButtonProps) {
 
     return (
         <Container
