@@ -4,15 +4,19 @@ import {
     InputContainer,
     Form,
     TextInputStyle,
-    TextInputMaskStyle
- } from './styles';
+    TextInputMaskStyle,
+    BackButtonContainer,
+    ArrowBackIconStyle,
+    BackButtonText
+} from './styles';
 import {
     ContentContainer,
     Main,
     NameInputStyle,
     Strong,
     TextDeleteContainer,
-    Text
+    Text,
+    NoDataContainer
 } from '@styles/sharedStyles';
 import { Header } from '@components/Header'
 import { Button } from '@components/Button';
@@ -20,7 +24,11 @@ import { ModalBox } from '@components/Modal'
 import { useState } from 'react';
 import { TextInput } from '@components/TextInput'
 import { TextInputMask } from '@components/TextInputMask';
-import { CEPMask, CNPJMask } from '@utils/masks';
+import { CEPMask } from '@utils/masks';
+import { MdArrowBack } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
+import { PlaceCard } from '@components/PlaceCard';
+import { CardList } from '@components/CardList';
 
 export default function Places() {
 
@@ -31,20 +39,70 @@ export default function Places() {
     }
 
     const placeName = 'Local do Janiu Rua 1'
+    const places = [1]
+
+    const navigate = useNavigate()
+
+    const handleNavigateToCompanies = () => {
+        navigate('/empresas')
+    }
+
+
+    function handleEditPlace() {
+        return
+    }
+
+    function handleDeletePlace() {
+        return
+    }
 
     return (
         <Container>
             <Header renderStaticTitle={false} />
             <Main>
-                <ContentContainer>
-                    <Title
-                        content='Nenhuma local cadastrado!'
+                <BackButtonContainer
+                    onClick={handleNavigateToCompanies}
+                >
+                    <MdArrowBack
+                        style={ArrowBackIconStyle}
                     />
-                    <Button
-                        title='Adicionar local'
-                        onClick={() => setModal('delete-place')}
-                    />
-                </ContentContainer>
+                    <BackButtonText>
+                        Minhas empresas
+                    </BackButtonText>
+                </BackButtonContainer>
+                {
+                    places.length === 0 ?
+                        <NoDataContainer>
+                            <Title
+                                content='Nenhuma local cadastrado!'
+                            />
+                            <Button
+                                title='Adicionar local'
+                                onClick={() => setModal('register-place')}
+                            />
+                        </NoDataContainer>
+                        :
+                        <ContentContainer>
+                            <Button
+                                title='Adicionar empresa'
+                                onClick={() => setModal('register-Place')}
+                            />
+                            <CardList
+                                showTotalPlacesColumn={false}
+                            >
+                                {
+                                    places.map(place => (
+                                        <PlaceCard
+                                            key={place}
+                                            place='Empresa 1'
+                                            onDelete={handleDeletePlace}
+                                            onEdit={handleEditPlace}
+                                        />
+                                    ))
+                                }
+                            </CardList>
+                        </ContentContainer>
+                }
             </Main>
             <ModalBox
                 isOpen={modal === 'register-place'}

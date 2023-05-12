@@ -4,13 +4,14 @@ import {
     Form,
     InputContainer,
 } from './styles';
-import { 
-    ContentContainer, 
+import {
+    ContentContainer,
     Main,
     NameInputStyle,
     TextDeleteContainer,
     Text,
-    Strong
+    Strong,
+    NoDataContainer
 } from '@styles/sharedStyles';
 import { Header } from '@components/Header'
 import { Button } from '@components/Button';
@@ -19,6 +20,8 @@ import { useState } from 'react';
 import { TextInput } from '@components/TextInput'
 import { TextInputMask } from '@components/TextInputMask';
 import { CNPJMask } from '@utils/masks';
+import { CompanyCard } from '@components/CompanyCard';
+import { CardList } from '@components/CardList';
 
 export default function Companies() {
 
@@ -30,19 +33,57 @@ export default function Companies() {
 
     const companyName = 'Empresa do Janiu (Caucaia)'
 
+    const companies = [1, 2]
+
+    function handleViewCompany() {
+        return
+    }
+
+    function handleEditCompany() {
+        return
+    }
+
+    function handleDeleteCompany() {
+        return
+    }
+
     return (
         <Container>
             <Header renderStaticTitle />
             <Main>
-                <ContentContainer>
-                    <Title
-                        content='Nenhuma empresa cadastrada!'
-                    />
-                    <Button
-                        title='Adicionar empresa'
-                        onClick={() => setModal('register-company')}
-                    />
-                </ContentContainer>
+                {
+                    companies.length === 0 ?
+                        <NoDataContainer>
+                            <Title
+                                content='Nenhuma empresa cadastrada!'
+                            />
+                            <Button
+                                title='Adicionar empresa'
+                                onClick={() => setModal('register-company')}
+                            />
+                        </NoDataContainer>
+                        :
+                        <ContentContainer>
+                            <Button
+                                title='Adicionar empresa'
+                                onClick={() => setModal('register-company')}
+                            />
+                            <CardList showTotalPlacesColumn>
+                                {
+                                    companies.map(company => (
+                                        <CompanyCard
+                                            key={company}
+                                            company='Empresa 1'
+                                            totalPlaces={10}
+                                            onDelete={handleDeleteCompany}
+                                            onEdit={handleEditCompany}
+                                            onViewLocal={handleViewCompany}
+                                        />
+                                    ))
+                                }
+                            </CardList>
+                        </ContentContainer>
+                }
             </Main>
 
             <ModalBox

@@ -90,23 +90,32 @@ width: 100%;
 flex: 1;
 display: flex;
 flex-direction: column;
-justify-content: center;
 align-items: center;
-padding: ${({ theme }) => theme.sizes[4]};
-background-color:  ${({ theme }) => theme.colors.background};
+background-color: ${({ theme }) => theme.colors.background};
 `
 
-export const ContentContainer = styled.div`
+export const NoDataContainer = styled.div`
+width: 100%;
+flex: 1;
 display: flex;
 flex-direction: column;
-justify-content: center;
 align-items: center;
+padding-top:  ${({ theme }) => theme.sizes[4]};
 margin: 0 auto 10rem;
 & h1{
     max-width: 560px;
     text-align: center;
-    margin-bottom: ${({ theme }) => theme.sizes[8]};
+    margin:  10rem auto ${({ theme }) => theme.sizes[4]};
 }
+`
+
+export const ContentContainer = styled.div`
+width: 100%;
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+padding:  ${({ theme }) => theme.sizes[4]};
 `
 
 export const TextDeleteContainer = styled.div`

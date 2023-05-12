@@ -27,6 +27,21 @@ justify-content: space-between;
 }
 `
 
+export const BackButtonContainer = styled.div`
+width: 100%;
+height: 40px;
+display: flex;
+align-items: center;
+padding: ${({ theme }) => theme.sizes[6]} ${({ theme }) => theme.sizes[4]};
+cursor: pointer;
+`
+
+export const BackButtonText = styled.p`
+  font-size: ${({ theme }) => theme.sizes[5]};
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.title};
+`
+
 export const TextInputMaskStyle = {
     marginRight: '48px'
 }
@@ -34,4 +49,13 @@ export const TextInputMaskStyle = {
 export const TextInputStyle = {
     marginLeft: '48px'
 }
+
+export const ArrowBackIconStyle = {
+    marginRight: '8px',
+    width: '40px',
+    height: '40px',
+    color: '#373737',
+}
+
+
 
