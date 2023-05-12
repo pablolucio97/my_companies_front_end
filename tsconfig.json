@@ -38,6 +38,9 @@
       "@theme/*": [
         "theme/*"
       ],
+      "@routes/*": [
+        "routes/*"
+      ],
     }
   },
   "include": [

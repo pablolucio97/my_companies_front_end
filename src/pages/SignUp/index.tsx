@@ -10,10 +10,11 @@ import {
 
 import { Button } from '@components/Button'
 import background from '@assets/background.svg'
-import logo from '@assets/logo.svg'
 import { Title } from '@components/Title'
 import { Text } from '@components/Text'
 import { TextInput } from '@components/TextInput'
+import { Link } from 'react-router-dom'
+import { Logo } from '@components/Logo'
 
 export default function SignUp() {
     return (
@@ -38,12 +39,7 @@ export default function SignUp() {
             </IntroductionContainer>
             <FormContainer>
                 <LogoContainer>
-                    <img
-                        src={logo}
-                        alt='hublocal-logo'
-                        width='306px'
-                        height='107px'
-                    />
+                    <Logo />
                 </LogoContainer>
                 <FormContentContainer>
                     <TextInput
@@ -69,10 +65,12 @@ export default function SignUp() {
                     <Button
                         title='REGISTRAR'
                     />
-                    <Button
-                        title='CRIAR CONTA'
-                        variant='secondary'
-                    />
+                    <Link to='/'>
+                        <Button
+                            title='LOGAR'
+                            variant='secondary'
+                        />
+                    </Link>
                 </FormContentContainer>
             </FormContainer>
         </Container>
