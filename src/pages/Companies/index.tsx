@@ -26,7 +26,7 @@ import { CompanyCard } from '@components/CompanyCard';
 import { CardList } from '@components/CardList';
 import { Pagination } from '@components/Pagination';
 import { callNextPage, callPreviousPage } from '@utils/pagination'
-import { deleteCompany, getCompanies, updateCompany } from '@services/bff';
+import { deleteCompany, getCompanies, registerCompany, updateCompany } from '@services/bff';
 import { useQuery } from 'react-query';
 import ReactLoading from 'react-loading';
 import { useSelector } from 'react-redux'
@@ -80,6 +80,26 @@ export default function Companies() {
 
     function handleViewCompany() {
         return
+    }
+
+    async function handleRegisterCompany() {
+        try {
+            const data = {
+                nome: companyName,
+                website: companyWebsite,
+                cnpj: companyCNPJ,
+                user_id: user.id
+            }
+            await registerCompany(data)
+                .then(() => {
+                    showSuccessToast('Empresa registrada com sucesso!')
+                    handleCloseModal()
+                    clearInputs()
+                })
+        } catch (error) {
+            console.log(error)
+            showErrorToast('Houve um erro ao registrar empresa.')
+        }
     }
 
     async function handleEditCompany() {
@@ -250,24 +270,33 @@ export default function Companies() {
                 title='Adicionar empresa'
                 confirmButtonTitle='Adicionar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setActiveModal('register-company')}
+                onConfirm={handleRegisterCompany}
             >
                 <Form>
                     <TextInput
                         label='Nome'
                         name='name'
                         id='name-input'
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder={activeCompanyRef.current.nome}
                         style={NameInputStyle}
                     />
                     <InputContainer>
                         <TextInput
                             label='Website'
                             name='website'
+                            value={companyWebsite}
+                            onChange={(e) => setCompanyWebsite(e.target.value)}
+                            placeholder={activeCompanyRef.current.website}
                             id='website-input'
                         />
                         <TextInputMask
                             label='CNPJ'
                             name='cnpj'
+                            value={companyCNPJ}
+                            onChange={(e) => setCompanyCNPJ(e.target.value)}
+                            placeholder={activeCompanyRef.current.cnpj}
                             id='cnpj-input'
                             mask={CNPJMask}
                         />

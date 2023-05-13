@@ -1,4 +1,4 @@
-import { IAuthRequest, IRegisterRequest } from 'interfaces/bff'
+import { IAuthRequest, IRegisterCompanyRequest, IRegisterUserRequest } from 'interfaces/bff'
 import { api } from './api'
 import { AxiosError } from 'axios'
 import { ICompany } from 'interfaces/application'
@@ -24,7 +24,7 @@ async function authenticateUser(data: IAuthRequest) {
     return response
 }
 
-async function registerUser(data: IRegisterRequest) {
+async function registerUser(data: IRegisterUserRequest) {
     const response = await api.post('/usuarios/create', data)
         .then(response => {
             return response.data
@@ -57,7 +57,28 @@ async function updateCompany(company: ICompany) {
     } catch (error) {
         console.log(error)
     }
-
 }
 
-export { getCompanies, authenticateUser, registerUser, deleteCompany, updateCompany }
+async function registerCompany(data: IRegisterCompanyRequest) {
+    const requestData = {
+        nome: data.nome,
+        website: data.website,
+        cnpj: data.cnpj,
+        user_id: data.user_id
+    }
+    try {
+        const response = await api.post('/empresas/create', requestData)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export {
+    getCompanies,
+    authenticateUser,
+    registerUser,
+    deleteCompany,
+    updateCompany,
+    registerCompany
+}

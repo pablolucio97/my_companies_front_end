@@ -17,10 +17,21 @@ interface IAuthRequest {
     senha: string;
 }
 
-interface IRegisterRequest {
+interface IRegisterUserRequest {
     nome: string
     email: string
     senha: string
 }
+interface IRegisterCompanyRequest {
+    nome: string
+    website: string
+    cnpj: string
+    user_id: string
+}
 
-export type { IAuthUserResponse, IAuthRequest, IRegisterRequest }
+export type {
+    IAuthUserResponse,
+    IAuthRequest,
+    IRegisterUserRequest,
+    IRegisterCompanyRequest
+ }
