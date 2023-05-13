@@ -152,7 +152,17 @@ export const Strong = styled.strong`
   }
 `;
 
+export const ErrorText = styled.p`
+  font-size: ${({ theme }) => theme.sizes[2]}px;
+  font-weight: 400;
+  text-align: justify;
+  margin: 4px 0;
+  color: ${({ theme }) => theme.colors.error};
+`
+export const ErrorFetchContainer = styled.div`
+display: flex;
+`
 
 export const NameInputStyle = {
-    width: '100%',
+  width: '100%',
 }

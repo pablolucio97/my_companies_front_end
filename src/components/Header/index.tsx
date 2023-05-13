@@ -13,12 +13,17 @@ import { MdDomain, MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { SubTitle } from '@components/SubTitle'
 import { Text } from '@components/Text'
 import avatar from '@assets/avatar.svg'
+import { useSelector } from 'react-redux'
+import { RootState } from '@store/index';
 
 interface HeaderProps {
     renderStaticTitle: boolean
 }
 
 export function Header({ renderStaticTitle }: HeaderProps) {
+
+    const { user } = useSelector((state: RootState) => state.auth)
+
     return (
         <Container>
             {
@@ -38,7 +43,7 @@ export function Header({ renderStaticTitle }: HeaderProps) {
                                 style={BuildingsIconStyles}
                             />
                             <SubTitle
-                                content='Empresas do Janiu...'
+                                content={`Empresas do ${user.nome}`}
                             />
                             <MdOutlineKeyboardArrowDown
                                 style={BiggerArrowDownIconStyles}
@@ -56,7 +61,7 @@ export function Header({ renderStaticTitle }: HeaderProps) {
                     />
                 </AvatarContainer>
                 <Text
-                    content='Janiu'
+                    content={user.nome}
                     style={UserTextStyle}
                 />
                 <MdOutlineKeyboardArrowDown

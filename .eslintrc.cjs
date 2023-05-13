@@ -16,5 +16,6 @@ module.exports = {
         avoidEscape: true,
       },
     ],
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
 };

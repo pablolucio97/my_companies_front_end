@@ -15,8 +15,40 @@ import { Text } from '@components/Text'
 import { TextInput } from '@components/TextInput'
 import { Link } from 'react-router-dom'
 import { Logo } from '@components/Logo'
+import { useState } from 'react'
+import { registerUser } from '@services/bff'
+import { showErrorToast, showSuccessToast } from '@utils/toast'
+import { useNavigate } from 'react-router-dom'
 
 export default function SignUp() {
+
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordConfirmation, setPasswordConfirmation] = useState('')
+
+    const navigate = useNavigate()
+
+    async function handleRegisterUser() {
+        const registerData = {
+            nome: name,
+            email,
+            senha: password,
+        }
+        if (password !== passwordConfirmation || !name || !password || !email) {
+            showErrorToast('Verfique se todos os dados foram preenchidos corretamente.')
+        } else {
+            try {
+                await registerUser(registerData).then(() => {
+                    showSuccessToast('Usuário criado com sucesso!');
+                    navigate('/')
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
     return (
         <Container>
             <IntroductionContainer>
@@ -45,25 +77,41 @@ export default function SignUp() {
                     <TextInput
                         label='Nome'
                         name='name'
+                        required
                         id='name-input'
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <TextInput
+                        label='Email'
+                        name='email'
+                        type='email'
+                        required
+                        id='email-input'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextInput
                         label='Senha'
                         name='password'
+                        type='password'
+                        required
                         id='password-input'
-                    />
-                    <TextInput
-                        label='Senha'
-                        name='password'
-                        id='password-input'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <TextInput
                         label='Repetir Senha'
+                        type='password'
                         name='password-repeat'
+                        required
                         id='password-repeat-input'
+                        value={passwordConfirmation}
+                        onChange={(e) => setPasswordConfirmation(e.target.value)}
                     />
                     <Button
                         title='REGISTRAR'
+                        onClick={handleRegisterUser}
                     />
                     <Link to='/'>
                         <Button
