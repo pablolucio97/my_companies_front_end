@@ -26,20 +26,24 @@ import { CompanyCard } from '@components/CompanyCard';
 import { CardList } from '@components/CardList';
 import { Pagination } from '@components/Pagination';
 import { callNextPage, callPreviousPage } from '@utils/pagination'
-import { getCompanies } from '@services/bff';
+import { deleteCompany, getCompanies } from '@services/bff';
 import { useQuery } from 'react-query';
 import ReactLoading from 'react-loading';
 import { useSelector } from 'react-redux'
 import { RootState } from '@store/index'
 import { ICompany } from 'interfaces/application';
+import { showSuccessToast, showErrorToast } from '@utils/toast';
+import { activeCompanyInitialState } from '@utils/initialState';
+import useStateRef from 'react-usestateref'
 
 export default function Companies() {
 
-    const [modal, setModal] = useState('')
+    const [activeModal, setActiveModal] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(5)
     const [page, setPage] = useState(1)
     const [totalItems, setTotalItems] = useState(0)
     const [companies, setCompanies] = useState<ICompany[]>([])
+    const [, setActiveCompany, activeCompanyRef] = useStateRef(activeCompanyInitialState)
 
     const { user } = useSelector((state: RootState) => state.auth)
 
@@ -47,7 +51,7 @@ export default function Companies() {
         'get-companies',
         page,
         itemsPerPage,
-        modal
+        activeModal
     ], async () => {
         const response = await getCompanies(user.id)
         setCompanies(response)
@@ -56,7 +60,7 @@ export default function Companies() {
 
 
     function handleCloseModal() {
-        setModal('')
+        setActiveModal('')
     }
 
     const companyName = 'Empresa do Janiu (Caucaia)'
@@ -69,8 +73,22 @@ export default function Companies() {
         return
     }
 
-    function handleDeleteCompany() {
-        return
+    function handleSetCompanyAsActive(modal: string, company: ICompany) {
+        setActiveModal(modal)
+        setActiveCompany(company)
+    }
+
+    async function handleDeleteCompany() {
+        console.log(activeCompanyRef.current)
+        try {
+            await deleteCompany(activeCompanyRef.current.id).then(() => {
+                showSuccessToast('Empresa deletada com sucesso!')
+                handleCloseModal()
+            })
+        } catch (error) {
+            console.log(error)
+            showErrorToast('Houve um erro ao deletear empresa')
+        }
     }
 
     function handleNextPage() {
@@ -131,7 +149,7 @@ export default function Companies() {
                     />
                     <Button
                         title='Adicionar empresa'
-                        onClick={() => setModal('register-company')}
+                        onClick={() => setActiveModal('register-company')}
                     />
                 </NoDataContainer>
             )
@@ -140,7 +158,7 @@ export default function Companies() {
             <ContentContainer>
                 <Button
                     title='Adicionar empresa'
-                    onClick={() => setModal('register-company')}
+                    onClick={() => setActiveModal('register-company')}
                 />
                 <CardList showTotalPlacesColumn>
                     {
@@ -149,7 +167,7 @@ export default function Companies() {
                                 key={company.id}
                                 company={company.nome}
                                 totalPlaces={10}
-                                onDelete={handleDeleteCompany}
+                                onDelete={() => handleSetCompanyAsActive('delete-company', company)}
                                 onEdit={handleEditCompany}
                                 onViewLocal={handleViewCompany}
                             />
@@ -201,14 +219,14 @@ export default function Companies() {
             </Main>
 
             <ModalBox
-                isOpen={modal === 'register-company'}
+                isOpen={activeModal === 'register-company'}
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal'
                 overlayClassName='react-modal-overlay'
                 title='Adicionar empresa'
                 confirmButtonTitle='Adicionar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setModal('register-company')}
+                onConfirm={() => setActiveModal('register-company')}
             >
                 <Form>
                     <TextInput
@@ -234,14 +252,14 @@ export default function Companies() {
             </ModalBox>
 
             <ModalBox
-                isOpen={modal === 'edit-company'}
+                isOpen={activeModal === 'edit-company'}
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal'
                 overlayClassName='react-modal-overlay'
                 title={`Editar: ${companyName}`}
                 confirmButtonTitle='Salvar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setModal('test')}
+                onConfirm={() => setActiveModal('test')}
             >
                 <Form>
                     <TextInput
@@ -267,14 +285,14 @@ export default function Companies() {
             </ModalBox>
 
             <ModalBox
-                isOpen={modal === 'delete-company'}
+                isOpen={activeModal === 'delete-company'}
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal-delete'
                 overlayClassName='react-modal-overlay'
                 title='Confirmação de exclusão'
                 confirmButtonTitle='Excluir'
                 onCancel={handleCloseModal}
-                onConfirm={() => setModal('test')}
+                onConfirm={handleDeleteCompany}
                 variant='delete'
             >
                 <TextDeleteContainer>
@@ -289,3 +307,5 @@ export default function Companies() {
         </Container>
     )
 }
+
+

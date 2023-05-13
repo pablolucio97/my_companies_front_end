@@ -34,4 +34,14 @@ async function registerUser(data: IRegisterRequest) {
     return response
 }
 
-export { getCompanies, authenticateUser, registerUser }
+async function deleteCompany(id: string) {
+    try {
+        const response = await api.delete(`/empresas/delete/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export { getCompanies, authenticateUser, registerUser, deleteCompany }
