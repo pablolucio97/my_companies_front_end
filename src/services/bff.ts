@@ -42,7 +42,6 @@ async function deleteCompany(id: string) {
     } catch (error) {
         console.log(error)
     }
-
 }
 
 async function updateCompany(company: ICompany) {
@@ -120,6 +119,15 @@ async function updatePlace(data: IPlace) {
     }
 }
 
+async function deletePlace(id: string) {
+    try {
+        const response = await api.delete(`/locais/delete/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export {
     getCompanies,
     authenticateUser,
@@ -129,5 +137,6 @@ export {
     registerCompany,
     getPlaces,
     registerPlace,
-    updatePlace
+    updatePlace,
+    deletePlace
 }

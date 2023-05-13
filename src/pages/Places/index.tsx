@@ -33,7 +33,7 @@ import { PlaceCard } from '@components/PlaceCard';
 import { CardList } from '@components/CardList';
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query';
-import { getPlaces, registerPlace, updatePlace } from '@services/bff';
+import { deletePlace, getPlaces, registerPlace, updatePlace } from '@services/bff';
 import { IPlace } from 'interfaces/application';
 import useStateRef from 'react-usestateref';
 import { activePlaceInitialState } from '@utils/initialState';
@@ -147,8 +147,16 @@ export default function Places() {
         }
     }
 
-    function handleDeletePlace() {
-        return
+    async function handleDeletePlace() {
+        try {
+            await deletePlace(activePlaceRef.current.id).then(() => {
+                showSuccessToast('Local deletado com sucesso!')
+                handleCloseModal()
+            })
+        } catch (error) {
+            console.log(error)
+            showErrorToast('Houve um erro ao deletear local.')
+        }
     }
 
     function handleNextPage() {
@@ -248,7 +256,7 @@ export default function Places() {
                                     key={place.id}
                                     place={place.nome}
                                     onEdit={() => handleManagePlace('edit-place', place)}
-                                // onDelete={() => handleManagePlace('delete-place', place)}
+                                    onDelete={() => handleManagePlace('delete-place', place)}
                                 />
                             ))
                         }
@@ -458,7 +466,7 @@ export default function Places() {
                 title='Confirmação de exclusão'
                 confirmButtonTitle='Excluir'
                 onCancel={handleCloseModal}
-                onConfirm={() => setActiveModal('test')}
+                onConfirm={handleDeletePlace}
                 variant='delete'
             >
                 <TextDeleteContainer>
