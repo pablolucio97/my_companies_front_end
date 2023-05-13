@@ -1,6 +1,7 @@
 import { IAuthRequest, IRegisterRequest } from 'interfaces/bff'
 import { api } from './api'
 import { AxiosError } from 'axios'
+import { ICompany } from 'interfaces/application'
 
 async function getCompanies(userId: string) {
     try {
@@ -44,4 +45,19 @@ async function deleteCompany(id: string) {
 
 }
 
-export { getCompanies, authenticateUser, registerUser, deleteCompany }
+async function updateCompany(company: ICompany) {
+    const data = {
+        nome: company.nome,
+        website: company.website,
+        cnpj: company.cnpj,
+    }
+    try {
+        const response = await api.put(`/empresas/update/${company.id}`, data)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export { getCompanies, authenticateUser, registerUser, deleteCompany, updateCompany }

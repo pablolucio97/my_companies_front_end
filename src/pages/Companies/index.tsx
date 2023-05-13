@@ -26,7 +26,7 @@ import { CompanyCard } from '@components/CompanyCard';
 import { CardList } from '@components/CardList';
 import { Pagination } from '@components/Pagination';
 import { callNextPage, callPreviousPage } from '@utils/pagination'
-import { deleteCompany, getCompanies } from '@services/bff';
+import { deleteCompany, getCompanies, updateCompany } from '@services/bff';
 import { useQuery } from 'react-query';
 import ReactLoading from 'react-loading';
 import { useSelector } from 'react-redux'
@@ -44,6 +44,10 @@ export default function Companies() {
     const [totalItems, setTotalItems] = useState(0)
     const [companies, setCompanies] = useState<ICompany[]>([])
     const [, setActiveCompany, activeCompanyRef] = useStateRef(activeCompanyInitialState)
+
+    const [companyName, setCompanyName] = useState('')
+    const [companyWebsite, setCompanyWebsite] = useState('')
+    const [companyCNPJ, setCompanyCNPJ] = useState('')
 
     const { user } = useSelector((state: RootState) => state.auth)
 
@@ -63,23 +67,43 @@ export default function Companies() {
         setActiveModal('')
     }
 
-    const companyName = 'Empresa do Janiu (Caucaia)'
+    function clearInputs() {
+        setCompanyName('')
+        setCompanyWebsite('')
+        setCompanyCNPJ('')
+    }
+
+    function handleManageCompany(modal: string, company: ICompany) {
+        setActiveModal(modal)
+        setActiveCompany(company)
+    }
 
     function handleViewCompany() {
         return
     }
 
-    function handleEditCompany() {
-        return
+    async function handleEditCompany() {
+        try {
+            setActiveCompany({
+                id: activeCompanyRef.current.id,
+                nome: companyName,
+                cnpj: companyCNPJ,
+                website: companyWebsite
+            })
+            await updateCompany(activeCompanyRef.current)
+                .then(() => {
+                    showSuccessToast('Empresa atualizada com sucesso!')
+                    handleCloseModal()
+                    clearInputs()
+                })
+        } catch (error) {
+            console.log(error)
+            showErrorToast('Houve um erro ao editar empresa.')
+        }
     }
 
-    function handleSetCompanyAsActive(modal: string, company: ICompany) {
-        setActiveModal(modal)
-        setActiveCompany(company)
-    }
 
     async function handleDeleteCompany() {
-        console.log(activeCompanyRef.current)
         try {
             await deleteCompany(activeCompanyRef.current.id).then(() => {
                 showSuccessToast('Empresa deletada com sucesso!')
@@ -87,7 +111,7 @@ export default function Companies() {
             })
         } catch (error) {
             console.log(error)
-            showErrorToast('Houve um erro ao deletear empresa')
+            showErrorToast('Houve um erro ao deletear empresa.')
         }
     }
 
@@ -167,8 +191,8 @@ export default function Companies() {
                                 key={company.id}
                                 company={company.nome}
                                 totalPlaces={10}
-                                onDelete={() => handleSetCompanyAsActive('delete-company', company)}
-                                onEdit={handleEditCompany}
+                                onDelete={() => handleManageCompany('delete-company', company)}
+                                onEdit={() => handleManageCompany('edit-company', company)}
                                 onViewLocal={handleViewCompany}
                             />
                         ))
@@ -256,27 +280,36 @@ export default function Companies() {
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal'
                 overlayClassName='react-modal-overlay'
-                title={`Editar: ${companyName}`}
+                title={`Editar: ${activeCompanyRef.current.nome}`}
                 confirmButtonTitle='Salvar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setActiveModal('test')}
+                onConfirm={handleEditCompany}
             >
                 <Form>
                     <TextInput
                         label='Nome'
                         name='name'
                         id='name-input'
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder={activeCompanyRef.current.nome}
                         style={NameInputStyle}
                     />
                     <InputContainer>
                         <TextInput
                             label='Website'
                             name='website'
+                            value={companyWebsite}
+                            onChange={(e) => setCompanyWebsite(e.target.value)}
+                            placeholder={activeCompanyRef.current.website}
                             id='website-input'
                         />
                         <TextInputMask
                             label='CNPJ'
                             name='cnpj'
+                            value={companyCNPJ}
+                            onChange={(e) => setCompanyCNPJ(e.target.value)}
+                            placeholder={activeCompanyRef.current.cnpj}
                             id='cnpj-input'
                             mask={CNPJMask}
                         />
