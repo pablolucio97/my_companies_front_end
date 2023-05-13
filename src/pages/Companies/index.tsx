@@ -1,7 +1,7 @@
 import { Title } from '@components/Title';
 import {
     Container,
-    Form,
+    InputsContainer,
     InputContainer,
 } from './styles';
 import {
@@ -78,43 +78,51 @@ export default function Companies() {
         setActiveCompany(company)
     }
 
-      async function handleRegisterCompany() {
-        try {
-            const data = {
-                nome: companyName,
-                website: companyWebsite,
-                cnpj: companyCNPJ,
-                user_id: user.id
+    async function handleRegisterCompany() {
+        if (!companyName || !companyWebsite || !companyCNPJ) {
+            showErrorToast('Verifique se todos os dados foram preenchidos corretamente.')
+        } else {
+            try {
+                const data = {
+                    nome: companyName,
+                    website: companyWebsite,
+                    cnpj: companyCNPJ,
+                    user_id: user.id
+                }
+                await registerCompany(data)
+                    .then(() => {
+                        showSuccessToast('Empresa registrada com sucesso!')
+                        handleCloseModal()
+                        clearInputs()
+                    })
+            } catch (error) {
+                console.log(error)
+                showErrorToast('Houve um erro ao registrar empresa.')
             }
-            await registerCompany(data)
-                .then(() => {
-                    showSuccessToast('Empresa registrada com sucesso!')
-                    handleCloseModal()
-                    clearInputs()
-                })
-        } catch (error) {
-            console.log(error)
-            showErrorToast('Houve um erro ao registrar empresa.')
         }
     }
 
     async function handleEditCompany() {
-        try {
-            setActiveCompany({
-                id: activeCompanyRef.current.id,
-                nome: companyName,
-                cnpj: companyCNPJ,
-                website: companyWebsite
-            })
-            await updateCompany(activeCompanyRef.current)
-                .then(() => {
-                    showSuccessToast('Empresa atualizada com sucesso!')
-                    handleCloseModal()
-                    clearInputs()
+        if (!companyName || !companyWebsite || !companyCNPJ) {
+            showErrorToast('Verifique se todos os dados foram preenchidos corretamente.')
+        } else {
+            try {
+                setActiveCompany({
+                    id: activeCompanyRef.current.id,
+                    nome: companyName,
+                    cnpj: companyCNPJ,
+                    website: companyWebsite
                 })
-        } catch (error) {
-            console.log(error)
-            showErrorToast('Houve um erro ao editar empresa.')
+                await updateCompany(activeCompanyRef.current)
+                    .then(() => {
+                        showSuccessToast('Empresa atualizada com sucesso!')
+                        handleCloseModal()
+                        clearInputs()
+                    })
+            } catch (error) {
+                console.log(error)
+                showErrorToast('Houve um erro ao editar empresa.')
+            }
         }
     }
 
@@ -258,8 +266,6 @@ export default function Companies() {
                             :
                             renderCompaniesCards()
                 }
-
-
             </Main>
 
             <ModalBox
@@ -272,7 +278,7 @@ export default function Companies() {
                 onCancel={handleCloseModal}
                 onConfirm={handleRegisterCompany}
             >
-                <Form>
+                <InputsContainer>
                     <TextInput
                         label='Nome'
                         name='name'
@@ -301,7 +307,7 @@ export default function Companies() {
                             mask={CNPJMask}
                         />
                     </InputContainer>
-                </Form>
+                </InputsContainer>
             </ModalBox>
 
             <ModalBox
@@ -314,7 +320,7 @@ export default function Companies() {
                 onCancel={handleCloseModal}
                 onConfirm={handleEditCompany}
             >
-                <Form>
+                <InputsContainer>
                     <TextInput
                         label='Nome'
                         name='name'
@@ -343,7 +349,7 @@ export default function Companies() {
                             mask={CNPJMask}
                         />
                     </InputContainer>
-                </Form>
+                </InputsContainer>
             </ModalBox>
 
             <ModalBox

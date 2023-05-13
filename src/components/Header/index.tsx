@@ -8,13 +8,18 @@ import {
     UserTextStyle,
     BiggerArrowDownIconStyles,
     HeaderTitleDynamicContainer,
+    SignOutButton,
+    Button,
+    ActionsContainer
 } from './styles';
 import { MdDomain, MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { SubTitle } from '@components/SubTitle'
 import { Text } from '@components/Text'
 import avatar from '@assets/avatar.svg'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@store/index';
+import { useState } from 'react';
+import { signOut } from '@store/auth/auth.store'
 
 interface HeaderProps {
     renderStaticTitle: boolean
@@ -23,6 +28,14 @@ interface HeaderProps {
 export function Header({ renderStaticTitle }: HeaderProps) {
 
     const { user } = useSelector((state: RootState) => state.auth)
+    const dispatch = useDispatch()
+
+    const [enableSignOutButton, setEnableSignOutButton] = useState(false)
+
+    function handleSignOut() {
+        dispatch(signOut())
+        localStorage.removeItem('@my-companies:authToken')
+    }
 
     return (
         <Container>
@@ -49,6 +62,7 @@ export function Header({ renderStaticTitle }: HeaderProps) {
                                 style={BiggerArrowDownIconStyles}
                             />
                         </HeaderTitleDynamicContainer>
+
                     </HeaderTitleContainer>
             }
             <HeaderUserContainer>
@@ -64,10 +78,32 @@ export function Header({ renderStaticTitle }: HeaderProps) {
                     content={user.nome}
                     style={UserTextStyle}
                 />
-                <MdOutlineKeyboardArrowDown
-                    style={ArrowDownIconStyles}
-                />
+                {
+                    enableSignOutButton ?
+                        <Button
+                            onClick={() => setEnableSignOutButton(!enableSignOutButton)}
+                        >
+                            <ActionsContainer>
+                                <MdOutlineKeyboardArrowDown
+                                    style={ArrowDownIconStyles}
+                                />
+                                <SignOutButton
+                                    onClick={handleSignOut}
+                                >
+                                    Sair
+                                </SignOutButton>
+                            </ActionsContainer>
+                        </Button>
+                        :
+                        <Button
+                            onClick={() => setEnableSignOutButton(!enableSignOutButton)}
+                        >
+                            <MdOutlineKeyboardArrowDown
+                                style={ArrowDownIconStyles}
+                            />
+                        </Button>
+                }
             </HeaderUserContainer>
-        </Container>
+        </Container >
     )
 }

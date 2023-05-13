@@ -2,7 +2,7 @@ import { Title } from '@components/Title';
 import {
     Container,
     InputContainer,
-    Form,
+    InputsContainer,
     TextInputStyle,
     TextInputMaskStyle,
     BackButtonContainer,
@@ -99,51 +99,72 @@ export default function Places() {
     }
 
     async function handleRegisterPlace() {
-        try {
-            const data = {
-                nome: placeName,
-                cep: placeCep,
-                rua: placeStreet,
-                numero: placeNumber,
-                bairro: placeDistrict,
-                cidade: placeCity,
-                estado: placeState,
-                company_id: companyId!
+        if (!placeName ||
+            !placeCity ||
+            !placeCep ||
+            !placeCity ||
+            !placeState ||
+            !placeDistrict ||
+            !placeNumber) {
+            showErrorToast('Verifique se todos os dados foram preenchidos corretamente.')
+        } else {
+            try {
+                const data = {
+                    nome: placeName,
+                    cep: placeCep,
+                    rua: placeStreet,
+                    numero: placeNumber,
+                    bairro: placeDistrict,
+                    cidade: placeCity,
+                    estado: placeState,
+                    company_id: companyId!
+                }
+                await registerPlace(data)
+                    .then(() => {
+                        showSuccessToast('Local registrado com sucesso!')
+                        handleCloseModal()
+                        clearInputs()
+                    })
+            } catch (error) {
+                console.log(error)
+                showErrorToast('Houve um erro ao registrar local.')
             }
-            await registerPlace(data)
-                .then(() => {
-                    showSuccessToast('Local registrado com sucesso!')
-                    handleCloseModal()
-                    clearInputs()
-                })
-        } catch (error) {
-            console.log(error)
-            showErrorToast('Houve um erro ao registrar local.')
         }
+
     }
 
     async function handleEditPlace() {
-        try {
-            setActivePlace({
-                id: activePlaceRef.current.id,
-                nome: placeName,
-                cep: placeCep,
-                rua: placeStreet,
-                numero: placeNumber,
-                bairro: placeDistrict,
-                cidade: placeStreet,
-                estado: placeState,
-                company_id: companyId!
-            })
-            await updatePlace(activePlaceRef.current)
-                .then(() => {
-                    showSuccessToast('Local atualizado com sucesso!')
-                    handleCloseModal()
-                    clearInputs()
+        if (!placeName ||
+            !placeCity ||
+            !placeCep ||
+            !placeCity ||
+            !placeState ||
+            !placeDistrict ||
+            !placeNumber) {
+            showErrorToast('Verifique se todos os dados foram preenchidos corretamente.')
+        } else {
+            try {
+                setActivePlace({
+                    id: activePlaceRef.current.id,
+                    nome: placeName,
+                    cep: placeCep,
+                    rua: placeStreet,
+                    numero: placeNumber,
+                    bairro: placeDistrict,
+                    cidade: placeStreet,
+                    estado: placeState,
+                    company_id: companyId!
                 })
-        } catch (error) {
-            console.log(error)
-            showErrorToast('Houve um erro ao editar local.')
+                await updatePlace(activePlaceRef.current)
+                    .then(() => {
+                        showSuccessToast('Local atualizado com sucesso!')
+                        handleCloseModal()
+                        clearInputs()
+                    })
+            } catch (error) {
+                console.log(error)
+                showErrorToast('Houve um erro ao editar local.')
+            }
         }
     }
 
@@ -184,14 +205,14 @@ export default function Places() {
     const feedPageSelectList = useCallback(() => {
         const totalPagesIndicator = Math.ceil(Number(totalItems / itemsPerPage))
         const pagesSelectElementArr = Array.from(Array(totalPagesIndicator).keys())
-        const formatedPagesSelectElementArr = pagesSelectElementArr
+        const formattedPagesSelectElementArr = pagesSelectElementArr
             .map((option) => {
                 return {
                     label: option + 1,
                     value: option + 1,
                 }
             })
-        return formatedPagesSelectElementArr
+        return formattedPagesSelectElementArr
     }, [itemsPerPage, totalItems])
 
     const getTotalItems = useCallback(async () => {
@@ -227,7 +248,7 @@ export default function Places() {
                     />
                     <Button
                         title='Adicionar local'
-                        onClick={() => setActiveModal('register-company')}
+                        onClick={() => setActiveModal('register-place')}
                     />
                 </NoDataContainer>
             )
@@ -313,7 +334,7 @@ export default function Places() {
                 onCancel={handleCloseModal}
                 onConfirm={handleRegisterPlace}
             >
-                <Form>
+                <InputsContainer>
                     <TextInput
                         label='Nome'
                         name='name'
@@ -374,7 +395,7 @@ export default function Places() {
                             inputContainerStyle={TextInputStyle}
                         />
                     </InputContainer>
-                </Form>
+                </InputsContainer>
             </ModalBox>
 
             <ModalBox
@@ -387,7 +408,7 @@ export default function Places() {
                 onCancel={handleCloseModal}
                 onConfirm={handleEditPlace}
             >
-                <Form>
+                <InputsContainer>
                     <TextInput
                         label='Nome'
                         name='name'
@@ -455,7 +476,7 @@ export default function Places() {
                             inputContainerStyle={TextInputStyle}
                         />
                     </InputContainer>
-                </Form>
+                </InputsContainer>
             </ModalBox>
 
             <ModalBox

@@ -41,6 +41,22 @@ border-radius: 27px;
 border: 3px ${({theme}) => theme.colors.primary} solid;
 `
 
+export const Button = styled.button`
+background: transparent;
+`
+
+export const ActionsContainer = styled.div`
+display: flex;
+flex-direction: column;
+`
+
+export const SignOutButton = styled.button`
+font-size: ${({ theme }) => theme.sizes[3]};
+font-weight: 600;
+color: ${({ theme }) => theme.colors.text};
+background: transparent;
+`
+
 export const BuildingsIconStyles = {
     width: '48px',
     height: '48px',

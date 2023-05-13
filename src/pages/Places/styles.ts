@@ -6,7 +6,7 @@ height: 100vh;
 display: flex;
 flex-direction: column;
 `
-export const Form = styled.form`
+export const InputsContainer = styled.div`
 width: 100%;
 display: flex;
 flex-direction: column;
