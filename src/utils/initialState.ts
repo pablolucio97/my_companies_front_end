@@ -5,4 +5,16 @@ const activeCompanyInitialState = {
     cnpj: ''
 }
 
-export { activeCompanyInitialState }
+const activePlaceInitialState = {
+    id: '',
+    nome: '',
+    cep: '',
+    rua: '',
+    numero: '',
+    bairro: '',
+    cidade: '',
+    estado: '',
+    company_id: ''
+}
+
+export { activeCompanyInitialState, activePlaceInitialState }

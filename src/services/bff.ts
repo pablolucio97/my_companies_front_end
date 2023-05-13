@@ -74,11 +74,22 @@ async function registerCompany(data: IRegisterCompanyRequest) {
     }
 }
 
+async function getPlaces(companyId: string) {
+    try {
+        const response = await api.get(`/locais/list-by-company/${companyId}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 export {
     getCompanies,
     authenticateUser,
     registerUser,
     deleteCompany,
     updateCompany,
-    registerCompany
+    registerCompany,
+    getPlaces
 }

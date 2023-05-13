@@ -78,11 +78,7 @@ export default function Companies() {
         setActiveCompany(company)
     }
 
-    function handleViewCompany() {
-        return
-    }
-
-    async function handleRegisterCompany() {
+      async function handleRegisterCompany() {
         try {
             const data = {
                 nome: companyName,
@@ -171,12 +167,12 @@ export default function Companies() {
     }, [itemsPerPage, totalItems])
 
     const getTotalItems = useCallback(async () => {
-        const data = await getCompanies('0b5f09ee-8eea-4dd9-8c8e-0b52d355f85b')
+        const data = await getCompanies(user.id)
         if (data) {
             setTotalItems(data.length)
             return totalItems
         }
-    }, [totalItems])
+    }, [totalItems, user.id])
 
     useEffect(() => {
         getTotalItems()
@@ -205,19 +201,35 @@ export default function Companies() {
                     onClick={() => setActiveModal('register-company')}
                 />
                 <CardList showTotalPlacesColumn>
-                    {
-                        companies.map(company => (
-                            <CompanyCard
-                                key={company.id}
-                                company={company.nome}
-                                totalPlaces={10}
-                                onDelete={() => handleManageCompany('delete-company', company)}
-                                onEdit={() => handleManageCompany('edit-company', company)}
-                                onViewLocal={handleViewCompany}
-                            />
-                        ))
-                    }
+                    <>
+                        {
+                            companies.map(company => (
+                                <CompanyCard
+                                    key={company.id}
+                                    company={company.nome}
+                                    totalPlaces={10}
+                                    onDelete={() => handleManageCompany('delete-company', company)}
+                                    onEdit={() => handleManageCompany('edit-company', company)}
+                                    link={`/locais/${company.id}`}
+                                />
+                            ))
+                        }
+                        <Pagination
+                            callNextPage={handleNextPage}
+                            callPreviousPage={handlePreviousPage}
+                            totalOfItems={totalItems}
+                            currentPage={page}
+                            onPageChange={handleChangeCurrentPage}
+                            onItemsPerPageChange={handleChangeItemsPerPage}
+                            options={feedPageSelectList()}
+                            disabledPreviousPageButton={page <= 1}
+                            selectPlaceholder={'-'}
+                            totalPagesIndicator={feedTotalPagesIndicator()}
+                            disabledNextPageButton={page > Math.floor(totalItems / itemsPerPage) || totalItems % itemsPerPage === 0 && page === Math.floor(totalItems / itemsPerPage)}
+                        />
+                    </>
                 </CardList>
+
             </ContentContainer>
         )
     }
@@ -247,19 +259,7 @@ export default function Companies() {
                             renderCompaniesCards()
                 }
 
-                <Pagination
-                    callNextPage={handleNextPage}
-                    callPreviousPage={handlePreviousPage}
-                    totalOfItems={totalItems}
-                    currentPage={page}
-                    onPageChange={handleChangeCurrentPage}
-                    onItemsPerPageChange={handleChangeItemsPerPage}
-                    options={feedPageSelectList()}
-                    disabledPreviousPageButton={page <= 1}
-                    selectPlaceholder={'-'}
-                    totalPagesIndicator={feedTotalPagesIndicator()}
-                    disabledNextPageButton={page > Math.floor(totalItems / itemsPerPage) || totalItems % itemsPerPage === 0 && page === Math.floor(totalItems / itemsPerPage)}
-                />
+
             </Main>
 
             <ModalBox

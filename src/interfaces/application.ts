@@ -5,4 +5,17 @@ interface ICompany {
     cnpj: string
 }
 
-export type { ICompany }
+interface IPlace {
+    id: string;
+    nome: string;
+    cep: string;
+    rua: string;
+    numero: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    company_id?: string;
+}
+
+
+export type { ICompany, IPlace }

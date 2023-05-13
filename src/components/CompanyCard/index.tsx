@@ -9,13 +9,14 @@ import {
 import officeLocationIcon from '@assets/office-location.svg'
 import editIcon from '@assets/edit.svg'
 import trashIcon from '@assets/trash.svg'
+import { Link } from 'react-router-dom'
 
 interface CompanyCardProps {
     company: string;
     totalPlaces: number;
     onEdit: () => void;
     onDelete: () => void;
-    onViewLocal: () => void;
+    link: string;
 }
 
 export function CompanyCard({
@@ -23,7 +24,7 @@ export function CompanyCard({
     totalPlaces,
     onDelete,
     onEdit,
-    onViewLocal
+    link
 }: CompanyCardProps) {
     return (
         <Container>
@@ -42,14 +43,15 @@ export function CompanyCard({
                         alt="edit"
                     />
                 </Button>
-                <Button
-                    onClick={onViewLocal}
-                >
-                    <img
-                        src={officeLocationIcon}
-                        alt="local"
-                    />
-                </Button>
+                <Link to={link}>
+                    <Button
+                    >
+                        <img
+                            src={officeLocationIcon}
+                            alt="local"
+                        />
+                    </Button>
+                </Link>
                 <Button
                     onClick={onDelete}
                 >

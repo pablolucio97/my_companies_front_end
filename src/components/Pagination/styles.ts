@@ -1,26 +1,17 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    margin: 0 auto;
-    @media(max-width: 720px){
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-    }
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+  margin-top:  ${({ theme }) => theme.sizes[4]};
 `
 
 export const PagesCounterContainer = styled.div`
-    max-width: 50%;
-    display: flex;
-    flex-direction: column;
-    @media(max-width: 720px){
-        width: 100%;
-        justify-content: center;
-    }
+max-width: 50%;
+display: flex;
+flex-direction: column;
 `
 
 export const PageInfoContainer = styled.div`
@@ -34,13 +25,9 @@ display: flex;
 `
 
 export const ButtonsContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    @media(max-width: 720px){
-      width: 100%;
-      
-    }
-    `
+display: flex;
+justify-content: center;
+`
 
 export const Text = styled.p`
   font-size: ${({ theme }) => theme.sizes[1]};
@@ -49,20 +36,14 @@ export const Text = styled.p`
   text-align: justify;
   margin: 4px 0;
   color: ${({ theme }) => theme.colors.text};
-  @media (max-width: 720px) {
-    font-size: ${({ theme }) => theme.sizes[0]};
-  }
   `;
 
 export const StrongText = styled.strong`
   font-size: ${({ theme }) => theme.sizes[1]};
-  font-weight: 400;
+  font-weight: 500;
   text-align: justify;
   margin: 4px;
   color: ${({ theme }) => theme.colors.text};
-  @media (max-width: 720px) {
-    font-size: ${({ theme }) => theme.sizes[0]};
-  }
   `;
 
 export const Button = styled.button`
@@ -71,27 +52,21 @@ export const Button = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: ${({ theme }) => theme.colors.secondary};
+    background: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.text};
     border-radius: 4px;
     font-size: ${({ theme }) => theme.sizes[1]};
-    font-weight: 500;
+    font-weight: 400;
     padding: 8px;
     border: none;
     outline: none;
     cursor: pointer;
     &:disabled{
       cursor: auto;
-      background: ${({ theme }) => theme.colors.backgroundLight};
+      background: ${({ theme }) => theme.colors.backgroundGrey};
       color: ${({ theme }) => theme.colors.text};
     }
-    @media (max-width: 720px) {
-        height: 20px;
-        padding: 0;
-        font-size: ${({ theme }) => theme.sizes[0]};
-        margin: 4px;
-      }
-      `
+`
 
 export const SelectInput = styled.select`
   width: 40px;
@@ -120,26 +95,17 @@ export const SelectInput = styled.select`
     background: ${({ theme }) => theme.colors.textLight};
   }
   
-  @media (max-width: 720px) {
-    margin: 0 auto;
-    font-size: ${({ theme }) => theme.sizes[0]}px;
-  }
   `;
 
 export const Option = styled.option`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: ${({ theme }) => theme.sizes[1]}px;
+  font-size: ${({ theme }) => theme.sizes[1]};
   text-align: center;
   margin: 4px 0;
   background-color: ${({ theme }) => theme.colors.backgroundLight};
   color: ${({ theme }) => theme.colors.title};
-  
-  @media (max-width: 720px) {
-    font-size: ${({ theme }) => theme.sizes[0]}px;
-  }
-  
   `;
 
 export const SelectContainer = styled.div`
@@ -147,7 +113,16 @@ height: 32px;
 overflow-y: visible;
 `
 
+export const SelectInputContainer = styled.div`
+display: flex;
+border-right: 1px solid ${({ theme }) => theme.colors.backgroundGrey};
+margin-right: 4px;
+`
+
 export const SearchPagesContainer = styled.div`
+border: 1px solid ${({ theme }) => theme.colors.backgroundGrey};
+padding: 4px ${({ theme }) => theme.sizes[0]} 0;
+border-radius: 5px;
   max-width: 50%;
   display: flex;
   `

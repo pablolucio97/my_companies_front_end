@@ -16,12 +16,14 @@ import {
     Strong,
     TextDeleteContainer,
     Text,
-    NoDataContainer
+    NoDataContainer,
+    ErrorFetchContainer,
+    ErrorText
 } from '@styles/sharedStyles';
 import { Header } from '@components/Header'
 import { Button } from '@components/Button';
 import { ModalBox } from '@components/Modal'
-import { useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { TextInput } from '@components/TextInput'
 import { TextInputMask } from '@components/TextInputMask';
 import { CEPMask } from '@utils/masks';
@@ -29,17 +31,53 @@ import { MdArrowBack } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { PlaceCard } from '@components/PlaceCard';
 import { CardList } from '@components/CardList';
+import { useParams } from 'react-router-dom'
+import { useQuery } from 'react-query';
+import { getPlaces } from '@services/bff';
+import { IPlace } from 'interfaces/application';
+import useStateRef from 'react-usestateref';
+import { activePlaceInitialState } from '@utils/initialState';
+import { Pagination } from '@components/Pagination';
+import { callNextPage, callPreviousPage } from '@utils/pagination';
+import ReactLoading from 'react-loading';
 
 export default function Places() {
 
-    const [modal, setModal] = useState('')
+    const [activeModal, setActiveModal] = useState('')
+    const [itemsPerPage, setItemsPerPage] = useState(5)
+    const [page, setPage] = useState(1)
+    const [totalItems, setTotalItems] = useState(0)
+    const [places, setPlaces] = useState<IPlace[]>([])
+    const [, setActivePlace, activePlaceRef] = useStateRef(activePlaceInitialState)
+
+    const { placeId } = useParams()
+
+    console.log(placeId)
+
+    const { isLoading, error } = useQuery([
+        'get-places',
+        page,
+        itemsPerPage,
+        activeModal
+    ], async () => {
+        const response = await getPlaces(placeId!)
+        console.log(response)
+        setPlaces(response)
+        setTotalItems(response.length)
+    })
+
 
     function handleCloseModal() {
-        setModal('')
+        setActiveModal('')
     }
 
+    // function clearInputs() {
+    //     setCompanyName('')
+    //     setCompanyWebsite('')
+    //     setCompanyCNPJ('')
+    // }
+
     const placeName = 'Local do Janiu Rua 1'
-    const places = [1]
 
     const navigate = useNavigate()
 
@@ -56,10 +94,81 @@ export default function Places() {
         return
     }
 
-    return (
-        <Container>
-            <Header renderStaticTitle={false} />
-            <Main>
+    function handleNextPage() {
+        callNextPage(totalItems, itemsPerPage, page, () => setPage(page + 1))
+    }
+
+    function handlePreviousPage() {
+        callPreviousPage(page, () => setPage(page - 1))
+    }
+
+    function handleChangeCurrentPage(e: ChangeEvent<HTMLSelectElement>) {
+        setPage(Number(e.target.value))
+    }
+
+    function handleChangeItemsPerPage(e: ChangeEvent<HTMLSelectElement>) {
+        setItemsPerPage(Number(e.target.value))
+    }
+
+    const feedTotalPagesIndicator = useCallback(() => {
+        const totalPages = Math.ceil(Number(totalItems / itemsPerPage))
+        const totalPagesIndicator = Array.from(Array(totalPages).keys()).slice(-1)[0] + 1
+        return totalPagesIndicator
+    }, [itemsPerPage, totalItems])
+
+    const feedPageSelectList = useCallback(() => {
+        const totalPagesIndicator = Math.ceil(Number(totalItems / itemsPerPage))
+        const pagesSelectElementArr = Array.from(Array(totalPagesIndicator).keys())
+        const formatedPagesSelectElementArr = pagesSelectElementArr
+            .map((option) => {
+                return {
+                    label: option + 1,
+                    value: option + 1,
+                }
+            })
+        return formatedPagesSelectElementArr
+    }, [itemsPerPage, totalItems])
+
+    const getTotalItems = useCallback(async () => {
+        const data = await getPlaces(placeId!)
+        if (data) {
+            setTotalItems(data.length)
+            return totalItems
+        }
+    }, [placeId, totalItems])
+
+    useEffect(() => {
+        getTotalItems()
+        feedTotalPagesIndicator()
+        feedPageSelectList()
+    }, [getTotalItems, feedTotalPagesIndicator, feedPageSelectList, page])
+
+    function renderPlacesCards() {
+        if (places.length === 0) {
+            return (
+                <NoDataContainer>
+                    <BackButtonContainer
+                        onClick={handleNavigateToCompanies}
+                    >
+                        <MdArrowBack
+                            style={ArrowBackIconStyle}
+                        />
+                        <BackButtonText>
+                            Minhas empresas
+                        </BackButtonText>
+                    </BackButtonContainer>
+                    <Title
+                        content='Nenhuma empresa cadastrada!'
+                    />
+                    <Button
+                        title='Adicionar empresa'
+                        onClick={() => setActiveModal('register-company')}
+                    />
+                </NoDataContainer>
+            )
+        }
+        return (
+            <ContentContainer>
                 <BackButtonContainer
                     onClick={handleNavigateToCompanies}
                 >
@@ -70,49 +179,74 @@ export default function Places() {
                         Minhas empresas
                     </BackButtonText>
                 </BackButtonContainer>
+                <Button
+                    title='Adicionar empresa'
+                    onClick={() => setActiveModal('register-place')}
+                />
+                <CardList>
+                    <>
+                        {
+                            places.map(place => (
+                                <PlaceCard
+                                    key={place.id}
+                                    place={place.nome}
+                                // onEdit={() => handleManageCompany('edit-place', place)}
+                                // onDelete={() => handleManageCompany('delete-place', place)}
+                                />
+                            ))
+                        }
+                        <Pagination
+                            callNextPage={handleNextPage}
+                            callPreviousPage={handlePreviousPage}
+                            totalOfItems={totalItems}
+                            currentPage={page}
+                            onPageChange={handleChangeCurrentPage}
+                            onItemsPerPageChange={handleChangeItemsPerPage}
+                            options={feedPageSelectList()}
+                            disabledPreviousPageButton={page <= 1}
+                            selectPlaceholder={'-'}
+                            totalPagesIndicator={feedTotalPagesIndicator()}
+                            disabledNextPageButton={page > Math.floor(totalItems / itemsPerPage) || totalItems % itemsPerPage === 0 && page === Math.floor(totalItems / itemsPerPage)}
+                        />
+                    </>
+                </CardList>
+
+            </ContentContainer>
+        )
+    }
+
+    return (
+        <Container>
+            <Header renderStaticTitle={false} />
+            <Main>
                 {
-                    places.length === 0 ?
-                        <NoDataContainer>
-                            <Title
-                                content='Nenhuma local cadastrado!'
-                            />
-                            <Button
-                                title='Adicionar local'
-                                onClick={() => setModal('register-place')}
-                            />
-                        </NoDataContainer>
+                    isLoading ?
+                        <ReactLoading
+                            type='bubbles'
+                            color='#FFFFFF'
+                            height={40}
+                            width={40}
+                        />
                         :
-                        <ContentContainer>
-                            <Button
-                                title='Adicionar empresa'
-                                onClick={() => setModal('register-Place')}
-                            />
-                            <CardList
-                                showTotalPlacesColumn={false}
-                            >
-                                {
-                                    places.map(place => (
-                                        <PlaceCard
-                                            key={place}
-                                            place='Empresa 1'
-                                            onDelete={handleDeletePlace}
-                                            onEdit={handleEditPlace}
-                                        />
-                                    ))
-                                }
-                            </CardList>
-                        </ContentContainer>
+                        error ?
+                            <ErrorFetchContainer>
+                                <ErrorText>
+                                    Houve uma falha ao tentar carregar os dados do sistema
+                                </ErrorText>
+                            </ErrorFetchContainer>
+                            :
+                            renderPlacesCards()
                 }
             </Main>
             <ModalBox
-                isOpen={modal === 'register-place'}
+                isOpen={activeModal === 'register-place'}
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal'
                 overlayClassName='react-modal-overlay'
                 title='Adicionar local'
                 confirmButtonTitle='Adicionar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setModal('register-place')}
+                onConfirm={() => setActiveModal('register-place')}
             >
                 <Form>
                     <TextInput
@@ -165,14 +299,14 @@ export default function Places() {
             </ModalBox>
 
             <ModalBox
-                isOpen={modal === 'edit-place'}
+                isOpen={activeModal === 'edit-place'}
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal'
                 overlayClassName='react-modal-overlay'
                 title={`Editar: ${placeName}`}
                 confirmButtonTitle='Salvar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setModal('test')}
+                onConfirm={() => setActiveModal('test')}
             >
                 <Form>
                     <TextInput
@@ -225,14 +359,14 @@ export default function Places() {
             </ModalBox>
 
             <ModalBox
-                isOpen={modal === 'delete-place'}
+                isOpen={activeModal === 'delete-place'}
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal-delete'
                 overlayClassName='react-modal-overlay'
                 title='Confirmação de exclusão'
                 confirmButtonTitle='Excluir'
                 onCancel={handleCloseModal}
-                onConfirm={() => setModal('test')}
+                onConfirm={() => setActiveModal('test')}
                 variant='delete'
             >
                 <TextDeleteContainer>

@@ -10,8 +10,8 @@ import trashIcon from '@assets/trash.svg'
 
 interface PlaceCardProps {
     place: string;
-    onEdit: () => void;
-    onDelete: () => void;
+    onEdit?: () => void;
+    onDelete?: () => void;
 }
 
 export function PlaceCard({

@@ -22,7 +22,7 @@ export const Routes = createBrowserRouter([
         element: <Companies />
     },
     {
-        path: '/locais',
+        path: '/locais/:placeId',
         element: <Places />
     },
 ])

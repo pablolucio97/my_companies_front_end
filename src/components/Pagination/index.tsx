@@ -2,14 +2,12 @@ import { ChangeEvent } from 'react';
 import {
     ButtonsContainer,
     Container,
-    PagesCounterContainer,
     StrongText,
     Button,
     SelectInput,
     Option,
     SearchPagesContainer,
-    PageInfoContainer,
-    PageConfigurationContainer
+    SelectInputContainer
 } from './styles';
 
 
@@ -35,37 +33,25 @@ interface PaginationProps {
 
 
 export function Pagination({
-    currentPage = 1,
     onPageChange,
     onItemsPerPageChange,
-    totalOfItems,
     callPreviousPage,
     callNextPage,
     disabledPreviousPageButton,
     disabledNextPageButton,
     options,
     selectPlaceholder,
-    totalPagesIndicator
 }: PaginationProps) {
 
     const defaultItemsPerPageArr = [5, 10]
 
     return (
         <Container>
-            <PagesCounterContainer>
-                <PageInfoContainer>
-                    <StrongText>mostrando</StrongText>
-                    <StrongText>{currentPage}</StrongText>
-                    <StrongText> de </StrongText>
-                    <StrongText>{totalPagesIndicator}</StrongText>
-                    <StrongText>páginas,</StrongText>
-                    <StrongText>{totalOfItems}</StrongText>
-                    <StrongText>items no total</StrongText>
-                </PageInfoContainer>
-                <PageConfigurationContainer>
-                    <StrongText>Items por página:</StrongText>
+            <SearchPagesContainer>
+                <SelectInputContainer>
+                    <StrongText>Página:</StrongText>
                     <SelectInput
-                        onChange={onItemsPerPageChange}
+                        onChange={onPageChange}
                     >
                         <Option
                             selected
@@ -74,20 +60,18 @@ export function Pagination({
                             {selectPlaceholder}
                         </Option>
                         {
-                            defaultItemsPerPageArr.map(opt => (
-                                <Option key={opt} value={opt}
+                            options.map(opt => (
+                                <Option key={opt.value} value={opt.label}
                                 >
-                                    {opt}
+                                    {opt.label}
                                 </Option>
                             ))
                         }
                     </SelectInput>
-                </PageConfigurationContainer>
-            </PagesCounterContainer>
-            <SearchPagesContainer>
-                <StrongText>Página:</StrongText>
+                </SelectInputContainer>
+                <StrongText>Items por página:</StrongText>
                 <SelectInput
-                    onChange={onPageChange}
+                    onChange={onItemsPerPageChange}
                 >
                     <Option
                         selected
@@ -96,26 +80,27 @@ export function Pagination({
                         {selectPlaceholder}
                     </Option>
                     {
-                        options.map(opt => (
-                            <Option key={opt.value} value={opt.label}
+                        defaultItemsPerPageArr.map(opt => (
+                            <Option key={opt} value={opt}
                             >
-                                {opt.label}
+                                {opt}
                             </Option>
                         ))
                     }
                 </SelectInput>
+
                 <ButtonsContainer>
                     <Button
                         disabled={disabledPreviousPageButton}
                         onClick={callPreviousPage}
                     >
-                        Página anterior
+                        Anterior
                     </Button>
                     <Button
                         disabled={disabledNextPageButton}
                         onClick={callNextPage}
                     >
-                        Próxima página
+                        Próxima
                     </Button>
                 </ButtonsContainer>
             </SearchPagesContainer>
