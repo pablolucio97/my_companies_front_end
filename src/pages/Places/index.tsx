@@ -33,13 +33,14 @@ import { PlaceCard } from '@components/PlaceCard';
 import { CardList } from '@components/CardList';
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query';
-import { getPlaces } from '@services/bff';
+import { getPlaces, registerPlace, updatePlace } from '@services/bff';
 import { IPlace } from 'interfaces/application';
 import useStateRef from 'react-usestateref';
 import { activePlaceInitialState } from '@utils/initialState';
 import { Pagination } from '@components/Pagination';
 import { callNextPage, callPreviousPage } from '@utils/pagination';
 import ReactLoading from 'react-loading';
+import { showErrorToast, showSuccessToast } from '@utils/toast';
 
 export default function Places() {
 
@@ -50,9 +51,15 @@ export default function Places() {
     const [places, setPlaces] = useState<IPlace[]>([])
     const [, setActivePlace, activePlaceRef] = useStateRef(activePlaceInitialState)
 
-    const { placeId } = useParams()
+    const [placeName, setPlaceName] = useState('')
+    const [placeCep, setPlaceCep] = useState('')
+    const [placeNumber, setPlaceNumber] = useState('')
+    const [placeStreet, setPlaceStreet] = useState('')
+    const [placeDistrict, setPlaceDistrict] = useState('')
+    const [placeCity, setPlaceCity] = useState('')
+    const [placeState, setPlaceState] = useState('')
 
-    console.log(placeId)
+    const { companyId } = useParams()
 
     const { isLoading, error } = useQuery([
         'get-places',
@@ -60,24 +67,25 @@ export default function Places() {
         itemsPerPage,
         activeModal
     ], async () => {
-        const response = await getPlaces(placeId!)
+        const response = await getPlaces(companyId!)
         console.log(response)
         setPlaces(response)
         setTotalItems(response.length)
     })
 
-
     function handleCloseModal() {
         setActiveModal('')
     }
 
-    // function clearInputs() {
-    //     setCompanyName('')
-    //     setCompanyWebsite('')
-    //     setCompanyCNPJ('')
-    // }
-
-    const placeName = 'Local do Janiu Rua 1'
+    function clearInputs() {
+        setPlaceName('')
+        setPlaceCep('')
+        setPlaceStreet('')
+        setPlaceNumber('')
+        setPlaceDistrict('')
+        setPlaceCity('')
+        setPlaceState('')
+    }
 
     const navigate = useNavigate()
 
@@ -85,9 +93,58 @@ export default function Places() {
         navigate('/empresas')
     }
 
+    function handleManagePlace(modal: string, place: IPlace) {
+        setActiveModal(modal)
+        setActivePlace(place as never)
+    }
 
-    function handleEditPlace() {
-        return
+    async function handleRegisterPlace() {
+        try {
+            const data = {
+                nome: placeName,
+                cep: placeCep,
+                rua: placeStreet,
+                numero: placeNumber,
+                bairro: placeDistrict,
+                cidade: placeCity,
+                estado: placeState,
+                company_id: companyId!
+            }
+            await registerPlace(data)
+                .then(() => {
+                    showSuccessToast('Local registrado com sucesso!')
+                    handleCloseModal()
+                    clearInputs()
+                })
+        } catch (error) {
+            console.log(error)
+            showErrorToast('Houve um erro ao registrar local.')
+        }
+    }
+
+    async function handleEditPlace() {
+        try {
+            setActivePlace({
+                id: activePlaceRef.current.id,
+                nome: placeName,
+                cep: placeCep,
+                rua: placeStreet,
+                numero: placeNumber,
+                bairro: placeDistrict,
+                cidade: placeStreet,
+                estado: placeState,
+                company_id: companyId!
+            })
+            await updatePlace(activePlaceRef.current)
+                .then(() => {
+                    showSuccessToast('Local atualizado com sucesso!')
+                    handleCloseModal()
+                    clearInputs()
+                })
+        } catch (error) {
+            console.log(error)
+            showErrorToast('Houve um erro ao editar local.')
+        }
     }
 
     function handleDeletePlace() {
@@ -130,12 +187,12 @@ export default function Places() {
     }, [itemsPerPage, totalItems])
 
     const getTotalItems = useCallback(async () => {
-        const data = await getPlaces(placeId!)
+        const data = await getPlaces(companyId!)
         if (data) {
             setTotalItems(data.length)
             return totalItems
         }
-    }, [placeId, totalItems])
+    }, [companyId, totalItems])
 
     useEffect(() => {
         getTotalItems()
@@ -158,10 +215,10 @@ export default function Places() {
                         </BackButtonText>
                     </BackButtonContainer>
                     <Title
-                        content='Nenhuma empresa cadastrada!'
+                        content='Nenhum local cadastrado!'
                     />
                     <Button
-                        title='Adicionar empresa'
+                        title='Adicionar local'
                         onClick={() => setActiveModal('register-company')}
                     />
                 </NoDataContainer>
@@ -180,7 +237,7 @@ export default function Places() {
                     </BackButtonText>
                 </BackButtonContainer>
                 <Button
-                    title='Adicionar empresa'
+                    title='Adicionar local'
                     onClick={() => setActiveModal('register-place')}
                 />
                 <CardList>
@@ -190,8 +247,8 @@ export default function Places() {
                                 <PlaceCard
                                     key={place.id}
                                     place={place.nome}
-                                // onEdit={() => handleManageCompany('edit-place', place)}
-                                // onDelete={() => handleManageCompany('delete-place', place)}
+                                    onEdit={() => handleManagePlace('edit-place', place)}
+                                // onDelete={() => handleManagePlace('delete-place', place)}
                                 />
                             ))
                         }
@@ -246,12 +303,14 @@ export default function Places() {
                 title='Adicionar local'
                 confirmButtonTitle='Adicionar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setActiveModal('register-place')}
+                onConfirm={handleRegisterPlace}
             >
                 <Form>
                     <TextInput
                         label='Nome'
                         name='name'
+                        value={placeName}
+                        onChange={(e) => { setPlaceName(e.target.value) }}
                         id='name-input'
                         style={NameInputStyle}
                     />
@@ -259,6 +318,8 @@ export default function Places() {
                         <TextInputMask
                             label='CEP'
                             name='cep'
+                            value={placeCep}
+                            onChange={(e) => { setPlaceCep(e.target.value) }}
                             id='cep-input'
                             mask={CEPMask}
                             style={TextInputMaskStyle}
@@ -266,6 +327,8 @@ export default function Places() {
                         <TextInput
                             label='Rua'
                             name='street'
+                            value={placeStreet}
+                            onChange={(e) => { setPlaceStreet(e.target.value) }}
                             id='street-input'
                         />
                     </InputContainer>
@@ -273,11 +336,15 @@ export default function Places() {
                         <TextInput
                             label='Número'
                             name='number'
+                            value={placeNumber}
+                            onChange={(e) => { setPlaceNumber(e.target.value) }}
                             id='number-input'
                         />
                         <TextInput
                             label='Bairro'
                             name='district'
+                            value={placeDistrict}
+                            onChange={(e) => { setPlaceDistrict(e.target.value) }}
                             id='district-input'
                             inputContainerStyle={TextInputStyle}
                         />
@@ -286,11 +353,15 @@ export default function Places() {
                         <TextInput
                             label='Cidade'
                             name='city'
+                            value={placeCity}
+                            onChange={(e) => { setPlaceCity(e.target.value) }}
                             id='city-input'
                         />
                         <TextInput
                             label='Estado'
                             name='state'
+                            value={placeState}
+                            onChange={(e) => { setPlaceState(e.target.value) }}
                             id='state-input'
                             inputContainerStyle={TextInputStyle}
                         />
@@ -306,12 +377,15 @@ export default function Places() {
                 title={`Editar: ${placeName}`}
                 confirmButtonTitle='Salvar'
                 onCancel={handleCloseModal}
-                onConfirm={() => setActiveModal('test')}
+                onConfirm={handleEditPlace}
             >
                 <Form>
                     <TextInput
                         label='Nome'
                         name='name'
+                        value={placeName}
+                        onChange={(e) => { setPlaceName(e.target.value) }}
+                        placeholder={activePlaceRef.current.nome}
                         id='name-input'
                         style={NameInputStyle}
                     />
@@ -319,6 +393,9 @@ export default function Places() {
                         <TextInputMask
                             label='CEP'
                             name='cep'
+                            value={placeCep}
+                            onChange={(e) => { setPlaceCep(e.target.value) }}
+                            placeholder={activePlaceRef.current.cep}
                             id='cep-input'
                             mask={CEPMask}
                             style={TextInputMaskStyle}
@@ -326,6 +403,9 @@ export default function Places() {
                         <TextInput
                             label='Rua'
                             name='street'
+                            value={placeStreet}
+                            onChange={(e) => { setPlaceStreet(e.target.value) }}
+                            placeholder={activePlaceRef.current.rua}
                             id='street-input'
                         />
                     </InputContainer>
@@ -333,11 +413,17 @@ export default function Places() {
                         <TextInput
                             label='Número'
                             name='number'
+                            value={placeNumber}
+                            onChange={(e) => { setPlaceNumber(e.target.value) }}
+                            placeholder={activePlaceRef.current.numero}
                             id='number-input'
                         />
                         <TextInput
                             label='Bairro'
                             name='district'
+                            value={placeDistrict}
+                            onChange={(e) => { setPlaceDistrict(e.target.value) }}
+                            placeholder={activePlaceRef.current.bairro}
                             id='district-input'
                             inputContainerStyle={TextInputStyle}
                         />
@@ -346,11 +432,17 @@ export default function Places() {
                         <TextInput
                             label='Cidade'
                             name='city'
+                            value={placeCity}
+                            onChange={(e) => { setPlaceCity(e.target.value) }}
+                            placeholder={activePlaceRef.current.cidade}
                             id='city-input'
                         />
                         <TextInput
                             label='Estado'
                             name='state'
+                            value={placeState}
+                            onChange={(e) => { setPlaceState(e.target.value) }}
+                            placeholder={activePlaceRef.current.estado}
                             id='state-input'
                             inputContainerStyle={TextInputStyle}
                         />

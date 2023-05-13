@@ -1,7 +1,7 @@
-import { IAuthRequest, IRegisterCompanyRequest, IRegisterUserRequest } from 'interfaces/bff'
+import { IAuthRequest, IRegisterCompanyRequest, IRegisterPlaceRequest, IRegisterUserRequest } from 'interfaces/bff'
 import { api } from './api'
 import { AxiosError } from 'axios'
-import { ICompany } from 'interfaces/application'
+import { ICompany, IPlace } from 'interfaces/application'
 
 async function getCompanies(userId: string) {
     try {
@@ -81,7 +81,43 @@ async function getPlaces(companyId: string) {
     } catch (error) {
         console.log(error)
     }
+}
 
+async function registerPlace(data: IRegisterPlaceRequest) {
+    const requestData = {
+        nome: data.nome,
+        cep: data.cep,
+        rua: data.rua,
+        numero: data.numero,
+        bairro: data.bairro,
+        cidade: data.cidade,
+        estado: data.estado,
+        company_id: data.company_id
+    }
+    try {
+        const response = await api.post('/locais/create', requestData)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function updatePlace(data: IPlace) {
+    const requestData = {
+        nome: data.nome,
+        cep: data.cep,
+        rua: data.rua,
+        numero: data.numero,
+        bairro: data.bairro,
+        cidade: data.cidade,
+        estado: data.estado,
+    }
+    try {
+        const response = await api.put(`/locais/update/${data.id}`, requestData)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export {
@@ -91,5 +127,7 @@ export {
     deleteCompany,
     updateCompany,
     registerCompany,
-    getPlaces
+    getPlaces,
+    registerPlace,
+    updatePlace
 }

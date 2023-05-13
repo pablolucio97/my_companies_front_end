@@ -29,9 +29,22 @@ interface IRegisterCompanyRequest {
     user_id: string
 }
 
+interface IRegisterPlaceRequest {
+    nome: string;
+    cep: string;
+    rua: string;
+    numero: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    company_id: string;
+}
+
+
 export type {
     IAuthUserResponse,
     IAuthRequest,
     IRegisterUserRequest,
-    IRegisterCompanyRequest
+    IRegisterCompanyRequest,
+    IRegisterPlaceRequest
  }
