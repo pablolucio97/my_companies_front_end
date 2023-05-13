@@ -67,7 +67,7 @@ export default function Places() {
         itemsPerPage,
         activeModal
     ], async () => {
-        const response = await getPlaces(companyId!)
+        const response = await getPlaces(companyId!, itemsPerPage, page)
         console.log(response)
         setPlaces(response)
         setTotalItems(response.length)

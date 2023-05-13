@@ -3,9 +3,10 @@ import { api } from './api'
 import { AxiosError } from 'axios'
 import { ICompany, IPlace } from 'interfaces/application'
 
-async function getCompanies(userId: string) {
+async function getCompanies(userId: string, itemsPerPage?: number, page?: number) {
     try {
-        const response = await api.get(`/empresas/list-by-user/${userId}`)
+        const response = await api
+            .get(`/empresas/list-by-user/${userId}?itemsPerPage=${itemsPerPage}&page=${page}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -73,9 +74,10 @@ async function registerCompany(data: IRegisterCompanyRequest) {
     }
 }
 
-async function getPlaces(companyId: string) {
+async function getPlaces(companyId: string, itemsPerPage?: number, page?: number) {
     try {
-        const response = await api.get(`/locais/list-by-company/${companyId}`)
+        const response = await api
+            .get(`/locais/list-by-company/${companyId}?itemsPerPage=${itemsPerPage}&page=${page}`)
         return response.data
     } catch (error) {
         console.log(error)

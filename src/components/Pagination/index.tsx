@@ -43,7 +43,7 @@ export function Pagination({
     selectPlaceholder,
 }: PaginationProps) {
 
-    const defaultItemsPerPageArr = [5, 10]
+    const defaultItemsPerPageArr = [5, 10, 20]
 
     return (
         <Container>
@@ -69,7 +69,7 @@ export function Pagination({
                         }
                     </SelectInput>
                 </SelectInputContainer>
-                <StrongText>Items por página:</StrongText>
+                <StrongText>Qt por página:</StrongText>
                 <SelectInput
                     onChange={onItemsPerPageChange}
                 >
@@ -88,7 +88,6 @@ export function Pagination({
                         ))
                     }
                 </SelectInput>
-
                 <ButtonsContainer>
                     <Button
                         disabled={disabledPreviousPageButton}

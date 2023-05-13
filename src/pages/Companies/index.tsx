@@ -57,7 +57,7 @@ export default function Companies() {
         itemsPerPage,
         activeModal
     ], async () => {
-        const response = await getCompanies(user.id)
+        const response = await getCompanies(user.id, itemsPerPage, page)
         setCompanies(response)
         setTotalItems(response.length)
     })

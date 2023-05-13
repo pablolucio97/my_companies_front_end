@@ -39,7 +39,7 @@ export const Text = styled.p`
   `;
 
 export const StrongText = styled.strong`
-  font-size: ${({ theme }) => theme.sizes[1]};
+  font-size: ${({ theme }) => theme.sizes[2]};
   font-weight: 500;
   text-align: justify;
   margin: 4px;
@@ -53,9 +53,9 @@ export const Button = styled.button`
     justify-content: center;
     align-items: center;
     background: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.backgroundLight};
     border-radius: 4px;
-    font-size: ${({ theme }) => theme.sizes[1]};
+    font-size: ${({ theme }) => theme.sizes[2]};
     font-weight: 400;
     padding: 8px;
     border: none;
