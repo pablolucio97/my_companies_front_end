@@ -37,8 +37,6 @@ Este repositório foi criado para armezenar o código front-end do desafio da Hu
 3. Rode o comando npm run dev para iniciar a aplicação.
 4. Rode o comando npm run test para executar os testes unitários.
 
-## Vídeo de apresentação do projeto
-[Video de apresentação](https://vimeo.com/826704801)
 
 ## Contato
 
