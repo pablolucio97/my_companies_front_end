@@ -15,6 +15,9 @@ export const Text = styled.p`
   font-size: ${({ theme }) => theme.sizes[3]};
   font-weight: 400;
   color: ${({ theme }) => theme.colors.text};
+  @media(max-width: 768px){
+    font-size: ${({ theme }) => theme.sizes[1]};
+  }
 `;
 
 export const CompanyNameContainer = styled.div`
@@ -24,23 +27,30 @@ flex: 1;
 
 export const CompanyTotalPlacesContainer = styled.div`
 width: 10%;
-min-width: 160px;
+min-width: 80px;
 display: flex;
 justify-content: center;
 `
 
 export const ActionsContainer = styled.div`
 width: 40%;
-min-width: 160px;
+min-width: 80px;
 display: flex;
 justify-content: center;
 background-color: ${({ theme }) => theme.colors.backgroundLight};
+
 
 & img{
     width: 30px;
     height: 30px;
     margin: 0 16px;
     background-color: ${({ theme }) => theme.colors.backgroundLight};
+
+    @media(max-width: 768px){
+    width: 20px;
+    height: 20px;
+    margin: 0 4px;
+    }
 }
 `
 export const Button = styled.button`

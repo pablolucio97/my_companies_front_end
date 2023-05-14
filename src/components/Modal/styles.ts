@@ -2,8 +2,8 @@ import Modal from 'react-modal';
 import styled, { keyframes } from 'styled-components';
 
 interface ModalBoxProps {
-    showAnimation?: boolean;
-    variant?: 'primary' | 'delete'
+  showAnimation?: boolean;
+  variant?: 'primary' | 'delete'
 }
 
 const modalAnimation = keyframes`
@@ -36,16 +36,19 @@ align-items: center;
 padding: 0 16px;
 border-radius: 5px 5px 0 0;
 background-color: ${({ theme, variant }) => variant === 'primary' ?
-        theme.colors.primary :
-        theme.colors.error};
+    theme.colors.primary :
+    theme.colors.error};
 margin: 0;
 
-& h2{
+`
+
+export const ModalTitle = styled.h2`
     color: ${({ theme }) => theme.colors.backgroundLight};
     font-size: ${({ theme }) => theme.sizes[4]};
     margin-left: ${({ theme }) => theme.sizes[3]};
-}
-
+    @media(max-width: 768px){
+      font-size: ${({ theme }) => theme.sizes[2]};
+    }
 `
 
 export const Divider = styled.div`
@@ -73,8 +76,8 @@ margin: 0;
 `
 
 export const CloseIconStyle = {
-    width: '32px',
-    height: '32px',
-    color: ' #FFFFFF',
-    cursor: 'pointer'
+  width: '32px',
+  height: '32px',
+  color: ' #FFFFFF',
+  cursor: 'pointer'
 }

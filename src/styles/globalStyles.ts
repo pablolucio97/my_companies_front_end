@@ -9,6 +9,10 @@ export const GlobalStyle = createGlobalStyle<{ theme: DefaultTheme }>`
     font-family: Poppins, sans-serif;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 button{
     display: flex;
     justify-content: center;
@@ -22,15 +26,22 @@ a, li, ul{
     text-decoration: none;
 }
 
+
 .active-modal {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        min-width: 684px;
+        width: 684px;
+        max-height: 95vh;
+        overflow-y: auto;
+        overflow-x: hidden;
         background: ${({ theme }) => theme.colors.backgroundLight};
         border-radius: 5px;
         margin: 25% auto;
         padding: 0;
+        @media(max-width: 768px){
+        width: 90%;
+        }
   }
 
   .active-modal-delete {
@@ -43,6 +54,9 @@ a, li, ul{
         border-radius: 5px;
         margin: 25% auto;
         padding: 0;
+        @media(max-width: 768px){
+        width: 90%;
+        }
   }
 
   .react-modal-overlay{

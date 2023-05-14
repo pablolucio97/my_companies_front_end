@@ -1,6 +1,12 @@
 import { ReactNode } from 'react';
-import { Container, TitleContainer, CloseIconStyle, Divider, ActionContainer } from './styles';
-import { SubTitle } from '@components/SubTitle';
+import {
+    Container,
+    TitleContainer,
+    CloseIconStyle,
+    Divider,
+    ActionContainer,
+    ModalTitle
+} from './styles';
 import { Button } from '@components/Button';
 import { MdClose } from 'react-icons/md'
 import { useTheme } from 'styled-components'
@@ -51,9 +57,9 @@ export function ModalBox({
                         theme?.colors.error
                 }}
             >
-                <SubTitle
-                    content={title}
-                />
+                <ModalTitle>
+                    {title}
+                </ModalTitle>
                 <MdClose
                     onClick={onCancel}
                     style={CloseIconStyle}

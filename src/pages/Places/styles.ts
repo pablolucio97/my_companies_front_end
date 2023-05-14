@@ -13,18 +13,22 @@ flex-direction: column;
 margin-bottom: ${({ theme }) => theme.sizes[10]};
 padding: ${({ theme }) => theme.sizes[4]};
 & input{
-    width: 320px;
+    width: 100%;
     height: 40px;
 }`
 
 export const InputContainer = styled.div`
 width: 100%;
-display: flex;
-flex-direction: row;
-justify-content: space-between;
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-gap: 4rem;
 & input{
-    width: 300px;
+    width: 100%;
 }
+@media(max-width: 768px){
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
 `
 
 export const BackButtonContainer = styled.div`
@@ -40,6 +44,9 @@ export const BackButtonText = styled.p`
   font-size: ${({ theme }) => theme.sizes[5]};
   font-weight: 400;
   color: ${({ theme }) => theme.colors.title};
+  @media(max-width: 768px){
+    font-size: ${({ theme }) => theme.sizes[3]};
+  }
 `
 
 export const TextInputMaskStyle = {
@@ -47,7 +54,11 @@ export const TextInputMaskStyle = {
 }
 
 export const TextInputStyle = {
-    marginLeft: '48px'
+    marginLeft: '48px',
+}
+
+export const TextInputStyleMobile = {
+    marginLeft: '0',
 }
 
 export const ArrowBackIconStyle = {

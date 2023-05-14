@@ -17,4 +17,8 @@ align-items: center;
     height: 120px;
 }
 
+& button{
+    min-width: 300px;
+}
+
 `

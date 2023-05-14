@@ -28,14 +28,14 @@ flex: 1;
 
 export const CompanyTotalPlacesContainer = styled.div`
 width: 10%;
-min-width: 160px;
+min-width: 80px;
 display: flex;
 justify-content: center;
 `
 
 export const ActionsContainer = styled.div`
 width: 40%;
-min-width: 160px;
+min-width: 80px;
 display: flex;
 justify-content: center;
 background-color: ${({ theme }) => theme.colors.backgroundLight};
@@ -46,4 +46,7 @@ export const Title = styled.h2`
   font-weight: 500;
   color: ${({ theme }) => theme.colors.text};
   text-align: center;
+  @media(max-width: 768px){
+    font-size: ${({ theme }) => theme.sizes[1]};
+  }
 `

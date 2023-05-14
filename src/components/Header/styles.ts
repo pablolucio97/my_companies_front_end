@@ -4,14 +4,25 @@ export const Container = styled.header`
 width: 100%;
 height: 80px;
 display: flex;
+@media(max-width: 900px){
+    flex-direction: column-reverse;
+    height: auto;
+    background-color:  ${({theme}) => theme.colors.backgroundGrey};
+    padding: 1rem 0;
+}
 `
 
 export const HeaderTitleContainer = styled.div`
 display: flex;
-flex:1;
+flex: 1;
 align-items: center;
 background-color:  ${({theme}) => theme.colors.backgroundLight};
 padding: ${({theme}) => theme.sizes[4]};
+@media(max-width: 900px){
+width: 100%;
+justify-content: flex-end;
+background-color:  ${({theme}) => theme.colors.backgroundGrey};
+}
 `
 
 export const HeaderTitleDynamicContainer = styled.div`
@@ -22,6 +33,10 @@ align-items: center;
 background-color:  ${({theme}) => theme.colors.backgroundGrey};
 padding: ${({theme}) => theme.sizes[4]};
 margin-left: -16px;
+@media(max-width: 900px){
+width: 100%;
+justify-content: flex-end;
+}
 `
 
 export const HeaderUserContainer = styled.div`
@@ -30,6 +45,11 @@ display: flex;
 justify-content: center;
 align-items: center;
 background-color:  ${({theme}) => theme.colors.backgroundGrey};
+@media(max-width: 900px){
+width: 100%;
+justify-content: flex-end;
+padding-right: 1rem;
+}
 `
 export const AvatarContainer= styled.div`
 width: 54px;

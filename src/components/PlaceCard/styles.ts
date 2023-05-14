@@ -15,6 +15,9 @@ export const Text = styled.p`
   font-size: ${({ theme }) => theme.sizes[3]};
   font-weight: 400;
   color: ${({ theme }) => theme.colors.text};
+  @media(max-width: 768px){
+    font-size: ${({ theme }) => theme.sizes[1]};
+  }
 `;
 
 export const PlaceNameContainer = styled.div`
@@ -33,7 +36,13 @@ background-color: ${({ theme }) => theme.colors.backgroundLight};
     width: 30px;
     height: 30px;
     margin-left: 16px;
+    @media(max-width: 768px){
+        width: 20px;
+        height: 20px;
+        margin-left: 8px;
+        }
 }
+
 `
 
 export const Button = styled.button`

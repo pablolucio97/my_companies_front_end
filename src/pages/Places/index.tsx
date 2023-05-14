@@ -7,18 +7,18 @@ import {
     TextInputMaskStyle,
     BackButtonContainer,
     ArrowBackIconStyle,
-    BackButtonText
+    BackButtonText,
+    TextInputStyleMobile
 } from './styles';
 import {
     ContentContainer,
     Main,
-    NameInputStyle,
     Strong,
     TextDeleteContainer,
     Text,
     NoDataContainer,
     ErrorFetchContainer,
-    ErrorText
+    ErrorText,
 } from '@styles/sharedStyles';
 import { Header } from '@components/Header'
 import { Button } from '@components/Button';
@@ -50,6 +50,7 @@ export default function Places() {
     const [totalItems, setTotalItems] = useState(0)
     const [places, setPlaces] = useState<IPlace[]>([])
     const [, setActivePlace, activePlaceRef] = useStateRef(activePlaceInitialState)
+    const [isMobileView, setIsMobileView] = useState(false)
 
     const [placeName, setPlaceName] = useState('')
     const [placeCep, setPlaceCep] = useState('')
@@ -229,6 +230,11 @@ export default function Places() {
         feedPageSelectList()
     }, [getTotalItems, feedTotalPagesIndicator, feedPageSelectList, page])
 
+    useEffect(() => {
+        const screenWidth = document.body.clientWidth
+        screenWidth <= 720 ? setIsMobileView(true) : setIsMobileView(false)
+    }, [])
+
     function renderPlacesCards() {
         if (places.length === 0) {
             return (
@@ -341,7 +347,6 @@ export default function Places() {
                         value={placeName}
                         onChange={(e) => { setPlaceName(e.target.value) }}
                         id='name-input'
-                        style={NameInputStyle}
                     />
                     <InputContainer>
                         <TextInputMask
@@ -351,7 +356,6 @@ export default function Places() {
                             onChange={(e) => { setPlaceCep(e.target.value) }}
                             id='cep-input'
                             mask={CEPMask}
-                            style={TextInputMaskStyle}
                         />
                         <TextInput
                             label='Rua'
@@ -375,7 +379,6 @@ export default function Places() {
                             value={placeDistrict}
                             onChange={(e) => { setPlaceDistrict(e.target.value) }}
                             id='district-input'
-                            inputContainerStyle={TextInputStyle}
                         />
                     </InputContainer>
                     <InputContainer>
@@ -392,7 +395,6 @@ export default function Places() {
                             value={placeState}
                             onChange={(e) => { setPlaceState(e.target.value) }}
                             id='state-input'
-                            inputContainerStyle={TextInputStyle}
                         />
                     </InputContainer>
                 </InputsContainer>
@@ -403,7 +405,7 @@ export default function Places() {
                 onRequestClose={handleCloseModal}
                 modalClassName='active-modal'
                 overlayClassName='react-modal-overlay'
-                title={`Editar: ${placeName}`}
+                title={`Editar: ${activePlaceRef.current.nome}`}
                 confirmButtonTitle='Salvar'
                 onCancel={handleCloseModal}
                 onConfirm={handleEditPlace}
@@ -416,7 +418,6 @@ export default function Places() {
                         onChange={(e) => { setPlaceName(e.target.value) }}
                         placeholder={activePlaceRef.current.nome}
                         id='name-input'
-                        style={NameInputStyle}
                     />
                     <InputContainer>
                         <TextInputMask
@@ -454,7 +455,8 @@ export default function Places() {
                             onChange={(e) => { setPlaceDistrict(e.target.value) }}
                             placeholder={activePlaceRef.current.bairro}
                             id='district-input'
-                            inputContainerStyle={TextInputStyle}
+                            inputContainerStyle={isMobileView ?
+                                TextInputStyleMobile : TextInputStyle}
                         />
                     </InputContainer>
                     <InputContainer>
@@ -473,7 +475,8 @@ export default function Places() {
                             onChange={(e) => { setPlaceState(e.target.value) }}
                             placeholder={activePlaceRef.current.estado}
                             id='state-input'
-                            inputContainerStyle={TextInputStyle}
+                            inputContainerStyle={isMobileView ?
+                                TextInputStyleMobile : TextInputStyle}
                         />
                     </InputContainer>
                 </InputsContainer>

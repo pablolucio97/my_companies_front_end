@@ -6,27 +6,19 @@ export const Container = styled.div`
   justify-content: flex-end;
   padding: 8px;
   margin-top:  ${({ theme }) => theme.sizes[4]};
+  @media(max-width: 900px) {
+    justify-content: flex-start;
+  }
 `
 
-export const PagesCounterContainer = styled.div`
-max-width: 50%;
-display: flex;
-flex-direction: column;
-`
-
-export const PageInfoContainer = styled.div`
-width: 100%;
-display: flex;
-`
-
-export const PageConfigurationContainer = styled.div`
-width: 100%;
-display: flex;
-`
 
 export const ButtonsContainer = styled.div`
 display: flex;
 justify-content: center;
+@media(max-width: 900px) {
+    margin-left: 2rem;
+    flex-direction: column;
+  }
 `
 
 export const Text = styled.p`
@@ -36,6 +28,9 @@ export const Text = styled.p`
   text-align: justify;
   margin: 4px 0;
   color: ${({ theme }) => theme.colors.text};
+  @media (max-width: 900px) {
+    font-size: ${({ theme }) => theme.sizes[0]};
+  }
   `;
 
 export const StrongText = styled.strong`
@@ -44,6 +39,9 @@ export const StrongText = styled.strong`
   text-align: justify;
   margin: 4px;
   color: ${({ theme }) => theme.colors.text};
+  @media (max-width: 900px) {
+    font-size: ${({ theme }) => theme.sizes[0]};
+  }
   `;
 
 export const Button = styled.button`
@@ -66,6 +64,9 @@ export const Button = styled.button`
       background: ${({ theme }) => theme.colors.backgroundGrey};
       color: ${({ theme }) => theme.colors.text};
     }
+    @media (max-width: 900px) {
+    font-size: ${({ theme }) => theme.sizes[0]};
+  }
 `
 
 export const SelectInput = styled.select`
@@ -74,8 +75,8 @@ export const SelectInput = styled.select`
   overflow-y: visible;
   border-radius: 4px;
   margin: 4px;
-  border: 2px solid ${({ theme }) => theme.colors.textLight};
   outline: none;
+  border: none;
   font-size: ${({ theme }) => theme.sizes[1]}px;
   background-color: #FFFFFF;
   -moz-appearance: none;
@@ -94,6 +95,8 @@ export const SelectInput = styled.select`
   &:disabled {
     background: ${({ theme }) => theme.colors.textLight};
   }
+
+
   
   `;
 
@@ -123,6 +126,8 @@ export const SearchPagesContainer = styled.div`
 border: 1px solid ${({ theme }) => theme.colors.backgroundGrey};
 padding: 4px ${({ theme }) => theme.sizes[0]} 0;
 border-radius: 5px;
-  max-width: 50%;
-  display: flex;
-  `
+display: flex;
+@media(max-width: 900px) {
+    width: 200px;
+  }
+`

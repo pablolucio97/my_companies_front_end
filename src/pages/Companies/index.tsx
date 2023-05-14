@@ -7,13 +7,12 @@ import {
 import {
     ContentContainer,
     Main,
-    NameInputStyle,
     TextDeleteContainer,
     Text,
     Strong,
     NoDataContainer,
     ErrorFetchContainer,
-    ErrorText
+    ErrorText,
 } from '@styles/sharedStyles';
 import { Header } from '@components/Header'
 import { Button } from '@components/Button';
@@ -287,8 +286,6 @@ export default function Companies() {
                         id='name-input'
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder={activeCompanyRef.current.nome}
-                        style={NameInputStyle}
                     />
                     <InputContainer>
                         <TextInput
@@ -296,7 +293,6 @@ export default function Companies() {
                             name='website'
                             value={companyWebsite}
                             onChange={(e) => setCompanyWebsite(e.target.value)}
-                            placeholder={activeCompanyRef.current.website}
                             id='website-input'
                         />
                         <TextInputMask
@@ -304,7 +300,6 @@ export default function Companies() {
                             name='cnpj'
                             value={companyCNPJ}
                             onChange={(e) => setCompanyCNPJ(e.target.value)}
-                            placeholder={activeCompanyRef.current.cnpj}
                             id='cnpj-input'
                             mask={CNPJMask}
                         />
@@ -330,7 +325,6 @@ export default function Companies() {
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
                         placeholder={activeCompanyRef.current.nome}
-                        style={NameInputStyle}
                     />
                     <InputContainer>
                         <TextInput
