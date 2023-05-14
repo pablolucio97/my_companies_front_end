@@ -26,7 +26,12 @@ import { CompanyCard } from '@components/CompanyCard';
 import { CardList } from '@components/CardList';
 import { Pagination } from '@components/Pagination';
 import { callNextPage, callPreviousPage } from '@utils/pagination'
-import { deleteCompany, getCompanies, registerCompany, updateCompany } from '@services/bff';
+import {
+    deleteCompany,
+    getCompanies,
+    registerCompany,
+    updateCompany,
+} from '@services/bff';
 import { useQuery } from 'react-query';
 import ReactLoading from 'react-loading';
 import { useSelector } from 'react-redux'
@@ -215,7 +220,7 @@ export default function Companies() {
                                 <CompanyCard
                                     key={company.id}
                                     company={company.nome}
-                                    totalPlaces={10}
+                                    totalPlaces={company.places!.length}
                                     onDelete={() => handleManageCompany('delete-company', company)}
                                     onEdit={() => handleManageCompany('edit-company', company)}
                                     link={`/locais/${company.id}`}
@@ -237,7 +242,6 @@ export default function Companies() {
                         />
                     </>
                 </CardList>
-
             </ContentContainer>
         )
     }
@@ -254,9 +258,7 @@ export default function Companies() {
                             height={40}
                             width={40}
                         />
-
                         :
-
                         error ?
                             <ErrorFetchContainer>
                                 <ErrorText>

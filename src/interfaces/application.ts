@@ -1,10 +1,3 @@
-interface ICompany {
-    id: string;
-    nome: string
-    website: string
-    cnpj: string
-}
-
 interface IPlace {
     id: string;
     nome: string;
@@ -16,6 +9,12 @@ interface IPlace {
     estado: string;
     company_id?: string;
 }
-
+interface ICompany {
+    id: string;
+    nome: string
+    website: string
+    cnpj: string
+    places?: IPlace[]
+}
 
 export type { ICompany, IPlace }
