@@ -166,7 +166,7 @@ justify-content: center;
 align-items: center;
 `
 
-export const FormContentContainer = styled.div`
+export const Form = styled.form`
 width: 400px;
 display: flex;
 flex-direction: column;

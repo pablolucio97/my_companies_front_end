@@ -4,8 +4,8 @@ import {
     IntroductionImageContainer,
     IntroductionContentContainer,
     FormContainer,
-    FormContentContainer,
-    LogoContainer
+    LogoContainer,
+    Form
 } from '@styles/sharedStyles'
 
 import { Button } from '@components/Button'
@@ -15,7 +15,7 @@ import { Text } from '@components/Text'
 import { TextInput } from '@components/TextInput'
 import { Link } from 'react-router-dom'
 import { Logo } from '@components/Logo'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { registerUser } from '@services/bff'
 import { showErrorToast, showSuccessToast } from '@utils/toast'
 import { useNavigate } from 'react-router-dom'
@@ -29,7 +29,8 @@ export default function SignUp() {
 
     const navigate = useNavigate()
 
-    async function handleRegisterUser() {
+    async function handleRegisterUser(e: FormEvent) {
+        e.preventDefault()
         const registerData = {
             nome: name,
             email,
@@ -73,7 +74,9 @@ export default function SignUp() {
                 <LogoContainer>
                     <Logo />
                 </LogoContainer>
-                <FormContentContainer>
+                <Form
+                    onSubmit={handleRegisterUser}
+                >
                     <TextInput
                         label='Nome'
                         name='name'
@@ -111,7 +114,7 @@ export default function SignUp() {
                     />
                     <Button
                         title='REGISTRAR'
-                        onClick={handleRegisterUser}
+                        type='submit'
                     />
                     <Link to='/'>
                         <Button
@@ -119,7 +122,7 @@ export default function SignUp() {
                             variant='secondary'
                         />
                     </Link>
-                </FormContentContainer>
+                </Form>
             </FormContainer>
         </Container>
     )

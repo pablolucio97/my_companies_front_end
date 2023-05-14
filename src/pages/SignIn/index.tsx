@@ -4,7 +4,7 @@ import {
     IntroductionImageContainer,
     IntroductionContentContainer,
     FormContainer,
-    FormContentContainer,
+    Form,
     LogoContainer
 } from '@styles/sharedStyles'
 
@@ -16,7 +16,7 @@ import { TextInput } from '@components/TextInput'
 import { Logo } from '@components/Logo'
 import { Link, useNavigate } from 'react-router-dom'
 import { authenticateUser } from '@services/bff'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { showErrorToast } from '@utils/toast'
 import { IAuthUserResponse } from 'interfaces/bff'
 import { useDispatch } from 'react-redux'
@@ -30,7 +30,8 @@ export default function SignIn() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    async function handleSignIn() {
+    async function handleSignIn(e: FormEvent) {
+        e.preventDefault()
         const authData = {
             email,
             senha: password
@@ -86,7 +87,9 @@ export default function SignIn() {
                 <LogoContainer>
                     <Logo />
                 </LogoContainer>
-                <FormContentContainer>
+                <Form
+                    onSubmit={handleSignIn}
+                >
                     <TextInput
                         label='Email'
                         name='email'
@@ -104,7 +107,7 @@ export default function SignIn() {
                     />
                     <Button
                         title='LOGAR'
-                        onClick={handleSignIn}
+                        type='submit'
                     />
                     <Link to='/cadastro'>
                         <Button
@@ -112,7 +115,7 @@ export default function SignIn() {
                             variant='secondary'
                         />
                     </Link>
-                </FormContentContainer>
+                </Form>
             </FormContainer>
         </Container>
     )
