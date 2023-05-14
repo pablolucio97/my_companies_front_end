@@ -3,12 +3,10 @@ import {
     Container,
     InputContainer,
     InputsContainer,
-    TextInputStyle,
     TextInputMaskStyle,
     BackButtonContainer,
     ArrowBackIconStyle,
     BackButtonText,
-    TextInputStyleMobile
 } from './styles';
 import {
     ContentContainer,
@@ -50,7 +48,6 @@ export default function Places() {
     const [totalItems, setTotalItems] = useState(0)
     const [places, setPlaces] = useState<IPlace[]>([])
     const [, setActivePlace, activePlaceRef] = useStateRef(activePlaceInitialState)
-    const [isMobileView, setIsMobileView] = useState(false)
 
     const [placeName, setPlaceName] = useState('')
     const [placeCep, setPlaceCep] = useState('')
@@ -189,14 +186,6 @@ export default function Places() {
         callPreviousPage(page, () => setPage(page - 1))
     }
 
-    function handleChangeCurrentPage(e: ChangeEvent<HTMLSelectElement>) {
-        setPage(Number(e.target.value))
-    }
-
-    function handleChangeItemsPerPage(e: ChangeEvent<HTMLSelectElement>) {
-        setItemsPerPage(Number(e.target.value))
-    }
-
     const feedTotalPagesIndicator = useCallback(() => {
         const totalPages = Math.ceil(Number(totalItems / itemsPerPage))
         const totalPagesIndicator = Array.from(Array(totalPages).keys()).slice(-1)[0] + 1
@@ -229,11 +218,6 @@ export default function Places() {
         feedTotalPagesIndicator()
         feedPageSelectList()
     }, [getTotalItems, feedTotalPagesIndicator, feedPageSelectList, page])
-
-    useEffect(() => {
-        const screenWidth = document.body.clientWidth
-        screenWidth <= 720 ? setIsMobileView(true) : setIsMobileView(false)
-    }, [])
 
     function renderPlacesCards() {
         if (places.length === 0) {
@@ -292,8 +276,9 @@ export default function Places() {
                             callPreviousPage={handlePreviousPage}
                             totalOfItems={totalItems}
                             currentPage={page}
-                            onPageChange={handleChangeCurrentPage}
-                            onItemsPerPageChange={handleChangeItemsPerPage}
+                            onPageChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                                setPage(Number(e.target.value))}
+                            onItemsPerPageChange={(e: ChangeEvent<HTMLSelectElement>) =>            setItemsPerPage(Number(e.target.value))}
                             options={feedPageSelectList()}
                             disabledPreviousPageButton={page <= 1}
                             selectPlaceholder={'-'}
@@ -455,8 +440,6 @@ export default function Places() {
                             onChange={(e) => { setPlaceDistrict(e.target.value) }}
                             placeholder={activePlaceRef.current.bairro}
                             id='district-input'
-                            inputContainerStyle={isMobileView ?
-                                TextInputStyleMobile : TextInputStyle}
                         />
                     </InputContainer>
                     <InputContainer>
@@ -475,8 +458,6 @@ export default function Places() {
                             onChange={(e) => { setPlaceState(e.target.value) }}
                             placeholder={activePlaceRef.current.estado}
                             id='state-input'
-                            inputContainerStyle={isMobileView ?
-                                TextInputStyleMobile : TextInputStyle}
                         />
                     </InputContainer>
                 </InputsContainer>

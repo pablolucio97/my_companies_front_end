@@ -11,7 +11,6 @@ export const Container = styled.div`
   }
 `
 
-
 export const ButtonsContainer = styled.div`
 display: flex;
 justify-content: center;
@@ -81,7 +80,6 @@ export const SelectInput = styled.select`
   background-color: #FFFFFF;
   -moz-appearance: none;
   -webkit-appearance: none;
-  /* background-image: url("/select_arrow.png"); */
   background-repeat: no-repeat, repeat;
   background-position: right 0.7em top 50%, 0 0;
   background-size: 1.32em auto, 100%;
@@ -95,9 +93,6 @@ export const SelectInput = styled.select`
   &:disabled {
     background: ${({ theme }) => theme.colors.textLight};
   }
-
-
-  
   `;
 
 export const Option = styled.option`

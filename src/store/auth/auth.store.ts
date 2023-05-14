@@ -1,9 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-interface IUser {
-    nome: string;
-    id: string;
-}
+import { IUser } from '@interfaces/application'
 
 const auth = createSlice({
     name: 'auth',

@@ -66,7 +66,6 @@ export default function Companies() {
         setTotalItems(response.length)
     })
 
-
     function handleCloseModal() {
         setActiveModal('')
     }
@@ -130,7 +129,6 @@ export default function Companies() {
         }
     }
 
-
     async function handleDeleteCompany() {
         try {
             await deleteCompany(activeCompanyRef.current.id).then(() => {
@@ -149,14 +147,6 @@ export default function Companies() {
 
     function handlePreviousPage() {
         callPreviousPage(page, () => setPage(page - 1))
-    }
-
-    function handleChangeCurrentPage(e: ChangeEvent<HTMLSelectElement>) {
-        setPage(Number(e.target.value))
-    }
-
-    function handleChangeItemsPerPage(e: ChangeEvent<HTMLSelectElement>) {
-        setItemsPerPage(Number(e.target.value))
     }
 
     const feedTotalPagesIndicator = useCallback(() => {
@@ -231,8 +221,9 @@ export default function Companies() {
                             callPreviousPage={handlePreviousPage}
                             totalOfItems={totalItems}
                             currentPage={page}
-                            onPageChange={handleChangeCurrentPage}
-                            onItemsPerPageChange={handleChangeItemsPerPage}
+                            onPageChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                                setPage(Number(e.target.value))}
+                            onItemsPerPageChange={(e: ChangeEvent<HTMLSelectElement>) => setItemsPerPage(Number(e.target.value))}
                             options={feedPageSelectList()}
                             disabledPreviousPageButton={page <= 1}
                             selectPlaceholder={'-'}

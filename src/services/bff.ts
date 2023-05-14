@@ -1,4 +1,9 @@
-import { IAuthRequest, IRegisterCompanyRequest, IRegisterPlaceRequest, IRegisterUserRequest } from 'interfaces/bff'
+import {
+    IAuthRequest,
+    IRegisterCompanyRequest,
+    IRegisterPlaceRequest,
+    IRegisterUserRequest
+ } from 'interfaces/bff'
 import { api } from './api'
 import { AxiosError } from 'axios'
 import { ICompany, IPlace } from 'interfaces/application'

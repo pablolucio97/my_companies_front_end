@@ -53,14 +53,6 @@ export const TextInputMaskStyle = {
     marginRight: '48px'
 }
 
-export const TextInputStyle = {
-    marginLeft: '48px',
-}
-
-export const TextInputStyleMobile = {
-    marginLeft: '0',
-}
-
 export const ArrowBackIconStyle = {
     marginRight: '8px',
     width: '40px',

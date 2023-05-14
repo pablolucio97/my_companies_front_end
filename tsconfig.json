@@ -50,6 +50,9 @@
       "@store/*": [
         "store/*"
       ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
     }
   },
   "include": [

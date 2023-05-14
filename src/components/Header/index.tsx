@@ -12,7 +12,7 @@ import {
     Button,
     ActionsContainer
 } from './styles';
-import { MdDomain, MdOutlineKeyboardArrowDown } from 'react-icons/md'
+import { MdDomain, MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowLeft } from 'react-icons/md'
 import { SubTitle } from '@components/SubTitle'
 import { Text } from '@components/Text'
 import avatar from '@assets/avatar.svg'
@@ -84,7 +84,7 @@ export function Header({ renderStaticTitle }: HeaderProps) {
                             onClick={() => setEnableSignOutButton(!enableSignOutButton)}
                         >
                             <ActionsContainer>
-                                <MdOutlineKeyboardArrowDown
+                                <MdOutlineKeyboardArrowLeft
                                     style={ArrowDownIconStyles}
                                 />
                                 <SignOutButton

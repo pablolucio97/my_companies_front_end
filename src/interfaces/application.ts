@@ -17,4 +17,9 @@ interface ICompany {
     places?: IPlace[]
 }
 
-export type { ICompany, IPlace }
+interface IUser {
+    nome: string;
+    id: string;
+}
+
+export type { ICompany, IPlace, IUser }
