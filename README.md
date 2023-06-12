@@ -4,6 +4,8 @@
 
 Este repositório foi criado para armezenar o código front-end do desafio da HubLocal para pdevs full-stack.
 
+![image](https://i.ibb.co/dcqBdy8/Sign-Up.png)
+
 ## Tecnologias utilizadas
 
 - React 
