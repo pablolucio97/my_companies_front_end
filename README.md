@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este repositório foi criado para armezenar o código front-end do desafio da HubLocal para pdevs full-stack.
+Este repositório foi criado para armezenar o código front-end do desafio da HubLocal para devs full-stack.
 
 ![image](https://i.ibb.co/dcqBdy8/Sign-Up.png)
 
